@@ -1,139 +1,186 @@
-# EarnPrime - Next.js Migration
+# EarnPrime
 
-This is your EarnPrime application fully migrated from Vue to Next.js with React and TypeScript.
+**Secure, transparent short-term investment platform** designed to help users grow their wealth with confidence through investment notes.
+
+[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://github.com/colinEarnPrime1987/earnprime-nextjs)
+[![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black.svg)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.4-blue.svg)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue.svg)](https://www.typescriptlang.org/)
 
 ## 🚀 Quick Start
 
-The development server is already running at:
-- **Local**: http://localhost:3001
-- **Network**: http://10.255.255.254:3001
-
-To start it again later:
-
 ```bash
-cd /home/colin/earnprime-nextjs
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
 ```
+
+Visit [http://localhost:3001](http://localhost:3001) to see the application.
 
 ## 📁 Project Structure
 
 ```
 earnprime-nextjs/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # Root layout with metadata
-│   ├── page.tsx           # Landing page (converted from Vue)
-│   ├── page.module.css    # Landing page styles
-│   └── globals.css        # Global styles
+├── app/                          # Next.js App Router
+│   ├── layout.tsx               # Root layout with metadata
+│   ├── page.tsx                 # Landing page
+│   ├── page.module.css          # Landing page styles
+│   ├── globals.css              # Global styles
+│   │
+│   ├── login/                   # Login page
+│   │   ├── page.tsx
+│   │   └── login.module.css
+│   │
+│   ├── register/                # Multi-step registration
+│   │   ├── page.tsx
+│   │   └── register.module.css
+│   │
+│   ├── dashboard/               # User dashboard
+│   │   ├── page.tsx
+│   │   └── dashboard.module.css
+│   │
+│   └── api/                     # API routes
+│       └── auth/
+│           ├── login/route.ts
+│           └── register/route.ts
 │
 ├── components/
-│   ├── base/             # Base components
+│   ├── base/                    # Base UI components
 │   │   ├── EPButton.tsx / .module.css
 │   │   ├── EPLogo.tsx / .module.css
 │   │   ├── AnimatedBackground.tsx / .module.css
 │   │   └── AnimatedLogo.tsx / .module.css
 │   │
-│   └── layout/           # Layout components
+│   └── layout/                  # Layout components
 │       └── EPContainer.tsx / .module.css
 │
-├── styles/               # Design system
-│   ├── variables.css    # CSS custom properties
-│   └── base.css         # Global base styles
+├── lib/                         # Core utilities
+│   └── session.ts              # Session management
 │
-├── public/              # Static assets
-│   └── assets/         # Logos and branding
+├── styles/                      # Design system
+│   ├── variables.css           # CSS custom properties
+│   └── base.css                # Global base styles
 │
-├── tsconfig.json        # TypeScript configuration
-├── next.config.ts       # Next.js configuration
-└── package.json         # Dependencies
+├── public/
+│   ├── assets/                 # Logos and branding
+│   └── icon.svg                # Favicon
+│
+├── docs/                        # Documentation
+│   └── PHASE-1-AUTHENTICATION.md
+│
+├── CHANGELOG.md                 # Version history
+├── tsconfig.json               # TypeScript config
+├── next.config.ts              # Next.js config
+└── package.json                # Dependencies
 ```
 
-## ✨ What Was Migrated
+## ✨ Features
 
-### Design System ✅
-- All CSS custom properties (colors, typography, spacing)
-- Poppins font from Google Fonts
-- Complete design token system
+### Phase 1: Authentication & Registration ✅
 
-### Components ✅
-All converted from Vue to React with TypeScript:
+- **Landing Page**
+  - Particle network animated background
+  - Parallax scrolling effects
+  - Features showcase
+  - Responsive navigation bar
+  - Call-to-action sections
 
-1. **EPButton** - Button component with variants (primary, secondary, outline, ghost)
-2. **EPLogo** - Logo component with multiple sizes and themes
-3. **EPContainer** - Responsive container
-4. **AnimatedBackground** - Full CSS animation background (gradients, particles, shapes)
-5. **AnimatedLogo** - Animated SVG logo with all effects
+- **User Authentication**
+  - Login page with form validation
+  - Session management with HttpOnly cookies
+  - Protected dashboard routes
 
-### Landing Page ✅
-- Parallax scrolling effects (using React hooks)
-- Hero section with animated background
-- Features section with scroll-triggered animations
-- CTA section
-- Footer
-- Fully responsive design
-- All animations preserved
+- **User Registration**
+  - Multi-step registration wizard
+  - Personal information collection
+  - Contact details validation
+  - Financial information and KYC
+  - Account creation with security
+  - Accredited investor qualification logic
 
-## 🔄 Vue → React Conversion
+- **API Routes**
+  - `/api/auth/login` - User authentication
+  - `/api/auth/register` - User registration
+  - In-memory session storage (development)
 
-### Key Changes:
+### Coming Soon
 
-| Vue | React |
-|-----|-------|
-| `ref()` | `useState()` |
-| `computed()` | `useMemo()` |
-| `onMounted()` | `useEffect(() => {}, [])` |
-| `onUnmounted()` | `useEffect(() => { return cleanup }, [])` |
-| `<script setup>` | `function Component() {}` |
-| `.vue` files | `.tsx` files |
-| Scoped `<style>` | CSS Modules (`.module.css`) |
-| `v-for` | `.map()` |
-| `:class` | `className` |
-| `@click` | `onClick` |
+- **Phase 2**: Dashboard & Wallet Management
+- **Phase 3**: Investment Notes System
+- **Phase 4**: Transaction History & Reporting
+- **Phase 5**: Settings & Profile Management
+- **Phase 6**: Production Deployment
 
-### Example Conversion:
+## 🎨 Design System
 
-**Vue:**
-```vue
-<script setup>
-import { ref, computed } from 'vue'
-const count = ref(0)
-const doubled = computed(() => count.value * 2)
-</script>
-```
+### Components
 
-**React:**
+#### EPButton
+Button component with multiple variants and sizes:
 ```tsx
-import { useState, useMemo } from 'react'
-const [count, setCount] = useState(0)
-const doubled = useMemo(() => count * 2, [count])
+<EPButton variant="primary" size="lg" onClick={handleClick}>
+  Click Me
+</EPButton>
 ```
 
-## 🎨 Using Components
+**Variants**: `primary`, `secondary`, `outline`, `ghost`
+**Sizes**: `sm`, `md`, `lg`
 
+#### EPLogo
+Logo component with flexible sizing and themes:
 ```tsx
-import EPButton from '@/components/base/EPButton'
-import EPLogo from '@/components/base/EPLogo'
-import EPContainer from '@/components/layout/EPContainer'
-
-export default function MyPage() {
-  return (
-    <EPContainer maxWidth="xl">
-      <EPLogo size="lg" />
-      <EPButton
-        variant="primary"
-        size="lg"
-        onClick={() => console.log('Clicked!')}
-      >
-        Click Me
-      </EPButton>
-    </EPContainer>
-  )
-}
+<EPLogo size="md" theme="light" variant="full" />
 ```
 
-## 🎯 Available Scripts
+**Sizes**: `sm`, `md`, `lg`, `xl`
+**Themes**: `default`, `dark`, `light`, `monochrome`
+**Variants**: `full`, `symbol`, `text`
+
+#### EPContainer
+Responsive container with max-width constraints:
+```tsx
+<EPContainer maxWidth="xl">
+  {children}
+</EPContainer>
+```
+
+**Max Widths**: `sm`, `md`, `lg`, `xl`
+
+#### AnimatedBackground
+Canvas-based particle network animation:
+```tsx
+<AnimatedBackground />
+```
+
+### Color Palette
+
+- **Primary Green**: `#00CE84`, `#00EA96`, `#02BF76`
+- **Dark**: `#1A1A1A`, `#2D2D2D`, `#3A3A3A`
+- **Neutral**: White, grays
+- **Semantic**: Success, error, warning, info
+
+### Typography
+
+- **Font Family**: Poppins (Google Fonts)
+- **Weights**: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
+- **Scale**: 12px - 48px with CSS custom properties
+
+## 🔧 Technology Stack
+
+- **Framework**: Next.js 16.1.6 (App Router)
+- **UI Library**: React 19.2.4
+- **Language**: TypeScript 5.9.3
+- **Styling**: CSS Modules + CSS Custom Properties
+- **Animations**: Canvas API + CSS animations
+- **Session Management**: HttpOnly cookies (in-memory store for development)
+- **Module System**: ES Modules
+
+## 📝 Available Scripts
 
 ```bash
-# Development server
+# Development server (port 3001)
 npm run dev
 
 # Production build
@@ -142,74 +189,133 @@ npm run build
 # Start production server
 npm run start
 
-# Linting
+# Run linter
 npm run lint
 ```
 
-## 🔧 TypeScript
+## 🔐 Authentication
 
-All components are fully typed with TypeScript:
-- Prop types defined with interfaces
-- IntelliSense support in VS Code
-- Type checking on build
+Current implementation uses mock authentication with in-memory session storage for rapid prototyping.
+
+**Demo User**:
+- Username: `demo`
+- Password: `password123`
+
+**⚠️ Note**: This is for development only. See [docs/PHASE-1-AUTHENTICATION.md](docs/PHASE-1-AUTHENTICATION.md) for production migration guide.
 
 ## 📱 Responsive Design
 
-All components and pages are fully responsive:
 - Mobile-first approach
-- Breakpoints match your original Vue design
+- Breakpoints: 768px, 1024px, 1280px
 - Touch-friendly interactions
+- Fluid typography and spacing
 
-## 🎭 Animations
+## 🎭 Animations & Effects
 
-All CSS animations from your Vue app have been preserved:
-- Parallax scrolling
-- Fade-in effects
-- Logo animations
-- Background gradients and particles
-- Scroll indicators
+- Particle network background with canvas rendering
+- Parallax scrolling on landing page
+- Scroll-triggered fade-in animations
+- Smooth page transitions
+- Interactive hover states
 
-## 🔜 Next Steps
+## 🧪 Development
 
-1. **Test the landing page**: Visit http://localhost:3001
-2. **Add new pages**: Create files in `app/` directory
-3. **Build authentication**: Add login/register pages
-4. **Deploy**:
-   ```bash
-   npm run build
-   npm run start
-   ```
+### Adding New Pages
 
-## 📚 Learn More
+Create a new directory in `app/` with a `page.tsx` file:
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://react.dev)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+```tsx
+// app/my-page/page.tsx
+export default function MyPage() {
+  return <div>My Page</div>
+}
+```
 
-## 🆚 Vue vs Next.js/React
+Route will be available at `/my-page`.
 
-You asked about compilation differences:
+### Creating Components
 
-### Compilation
-- **Both** compile to optimized JavaScript bundles
-- **Both** support SSR (Server-Side Rendering) for better SEO
-- **Both** have great build tools (Vite for Vue, Turbopack for Next.js)
+Use TypeScript and CSS Modules:
 
-### For Marketing & SEO
-- **Next.js** is better for marketing because it's optimized for SEO out of the box
-- Static Site Generation (SSG) and Server-Side Rendering (SSR) are built-in
-- Better for Google indexing and social media previews
-- This migration gives you the best of both worlds: React (which you know) + Next.js (great for marketing)
+```tsx
+// components/MyComponent.tsx
+import styles from './MyComponent.module.css'
 
-### What You Get with Next.js
-- **File-based routing** - No need to configure routes
-- **API routes** - Build backend endpoints in the same project
-- **Image optimization** - Automatic image optimization
-- **SEO-friendly** - Better than client-side React or Vue
-- **Fast** - Turbopack is incredibly fast
+interface MyComponentProps {
+  title: string
+}
 
-## 🎉 You're All Set!
+export default function MyComponent({ title }: MyComponentProps) {
+  return <div className={styles.container}>{title}</div>
+}
+```
 
-Your EarnPrime app is now fully migrated to Next.js with React and TypeScript. The exact same look, feel, and animations - but with a tech stack you're comfortable with!
+### API Routes
 
-Visit **http://localhost:3001** to see it live.
+Create route handlers in `app/api/`:
+
+```tsx
+// app/api/my-endpoint/route.ts
+import { NextResponse } from 'next/server'
+
+export async function GET() {
+  return NextResponse.json({ message: 'Hello' })
+}
+```
+
+## 🚢 Versioning
+
+This project follows [Semantic Versioning](https://semver.org/):
+
+- **MAJOR**: Breaking changes
+- **MINOR**: New features (backward compatible)
+- **PATCH**: Bug fixes
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+## 📚 Documentation
+
+- [Phase 1: Authentication & Registration](docs/PHASE-1-AUTHENTICATION.md) - Complete implementation guide
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features
+- [React Documentation](https://react.dev) - React fundamentals
+- [TypeScript Documentation](https://www.typescriptlang.org/docs) - TypeScript guide
+
+## 🎯 Roadmap
+
+- [x] **Phase 1**: Authentication & Registration (v0.1.0)
+- [ ] **Phase 2**: Dashboard & Wallet Management
+- [ ] **Phase 3**: Investment Notes System
+- [ ] **Phase 4**: Transaction History & Reporting
+- [ ] **Phase 5**: Settings & Profile Management
+- [ ] **Phase 6**: Production Deployment
+
+## 🔒 Security Considerations
+
+**Current (Development)**:
+- In-memory session storage
+- Plain-text passwords (mock only)
+- No database persistence
+
+**Production Requirements**:
+- PostgreSQL/MySQL database
+- bcrypt password hashing
+- JWT or session-based auth with Redis
+- HTTPS/SSL enforcement
+- CSRF protection
+- Rate limiting
+- Input sanitization
+
+See [docs/PHASE-1-AUTHENTICATION.md](docs/PHASE-1-AUTHENTICATION.md) for detailed security migration path.
+
+## 📄 License
+
+Copyright © 2026 EarnPrime. All rights reserved.
+
+## 🤝 Contributing
+
+This is a private project. For questions or issues, contact the development team.
+
+---
+
+**Current Version**: 0.1.0 - Phase 1 Complete
+**Last Updated**: February 4, 2026
