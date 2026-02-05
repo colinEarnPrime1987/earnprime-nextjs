@@ -1,0 +1,11 @@
+.epLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.epLogo svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
