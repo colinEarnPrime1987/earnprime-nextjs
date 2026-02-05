@@ -1,11 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
-import EPLogo from '@/components/base/EPLogo'
 import EPContainer from '@/components/layout/EPContainer'
+import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './page.module.css'
 
@@ -132,13 +131,17 @@ export default function LandingPage() {
         <EPContainer maxWidth="xl">
           <div className={styles.navContent}>
             <div className={styles.navLogo}>
-              <EPLogo size="sm" theme="light" />
+              <img
+                src="/assets/Logo files/PNGs - SVGs/SVG/Asset 3.svg"
+                alt="EarnPrime Logo"
+                className={styles.navLogoImage}
+              />
             </div>
             <div className={styles.navActions}>
-              <EPButton variant="outline" onClick={handleLogin}>
+              <EPButton size="sm" variant="outline" onClick={handleLogin}>
                 Login
               </EPButton>
-              <EPButton onClick={handleGetStarted}>
+              <EPButton size="sm" onClick={handleGetStarted}>
                 Sign Up
               </EPButton>
             </div>
@@ -225,7 +228,11 @@ export default function LandingPage() {
         <EPContainer maxWidth="xl">
           <div className={styles.footerContent}>
             <div className={styles.footerLogo}>
-              <EPLogo size="sm" theme="light" />
+              <img
+                src="/assets/Logo files/PNGs - SVGs/SVG/Asset 3.svg"
+                alt="EarnPrime Logo"
+                className={styles.navLogoImage}
+              />
             </div>
             <p className={styles.footerCopyright}>&copy; {currentYear} EarnPrime. All rights reserved.</p>
           </div>

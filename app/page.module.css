@@ -15,7 +15,7 @@
   background: rgba(26, 26, 26, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 234, 150, 0.1);
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 .navContent {
@@ -27,6 +27,11 @@
 .navLogo {
   display: flex;
   align-items: center;
+}
+
+.navLogoImage {
+  height: 26px;
+  width: auto;
 }
 
 .navActions {
@@ -273,8 +278,7 @@
 }
 
 .footerLogo {
-  transform: scale(0.7);
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .footerCopyright {

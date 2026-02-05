@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import styles from './dashboard.module.css'
 
 export default function DashboardPage() {
@@ -71,9 +71,7 @@ export default function DashboardPage() {
             </div>
 
             <div className={styles.demoInfo}>
-              <p className={styles.demoText}>
-                🎉 Phase 1 Complete: Authentication & Registration
-              </p>
+              <p className={styles.demoText}>🎉 Phase 1 Complete: Authentication & Registration</p>
               <p className={styles.demoSubtext}>
                 You successfully logged in! Check the Phase 1 documentation for implementation details.
               </p>
