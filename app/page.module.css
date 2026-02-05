@@ -5,6 +5,36 @@
   overflow-x: hidden;
 }
 
+/* Navigation Bar */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 234, 150, 0.1);
+  padding: 1rem 0;
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLogo {
+  display: flex;
+  align-items: center;
+}
+
+.navActions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 /* Hero Section with Animated Background */
 .hero {
   min-height: 100vh;
@@ -240,6 +270,11 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
+}
+
+.footerLogo {
+  transform: scale(0.7);
+  opacity: 0.8;
 }
 
 .footerCopyright {

@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
@@ -9,6 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './page.module.css'
 
 export default function LandingPage() {
+  const router = useRouter()
   const heroSectionRef = useRef<HTMLElement>(null)
   const featuresSectionRef = useRef<HTMLElement>(null)
   const ctaSectionRef = useRef<HTMLElement>(null)
@@ -112,8 +114,11 @@ export default function LandingPage() {
   }
 
   const handleGetStarted = () => {
-    // TODO: Navigate to registration page
-    console.log('Get Started clicked')
+    router.push('/register')
+  }
+
+  const handleLogin = () => {
+    router.push('/login')
   }
 
   const handleLearnMore = () => {
@@ -122,6 +127,25 @@ export default function LandingPage() {
 
   return (
     <div className={styles.landingPage}>
+      {/* Navigation Bar */}
+      <nav className={styles.nav}>
+        <EPContainer maxWidth="xl">
+          <div className={styles.navContent}>
+            <div className={styles.navLogo}>
+              <EPLogo size="sm" theme="light" />
+            </div>
+            <div className={styles.navActions}>
+              <EPButton variant="outline" onClick={handleLogin}>
+                Login
+              </EPButton>
+              <EPButton onClick={handleGetStarted}>
+                Sign Up
+              </EPButton>
+            </div>
+          </div>
+        </EPContainer>
+      </nav>
+
       {/* Hero Section with Animated Background */}
       <section ref={heroSectionRef} className={styles.hero}>
         {/* Animated Background */}
@@ -200,7 +224,9 @@ export default function LandingPage() {
       <footer className={styles.footer}>
         <EPContainer maxWidth="xl">
           <div className={styles.footerContent}>
-            <EPLogo size="sm" theme="light" />
+            <div className={styles.footerLogo}>
+              <EPLogo size="sm" theme="light" />
+            </div>
             <p className={styles.footerCopyright}>&copy; {currentYear} EarnPrime. All rights reserved.</p>
           </div>
         </EPContainer>
