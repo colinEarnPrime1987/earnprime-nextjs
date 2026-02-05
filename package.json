@@ -1,7 +1,7 @@
 {
   "name": "earnprime-nextjs",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "EarnPrime - Secure short-term investment platform",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
