@@ -4,6 +4,7 @@ import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
 import EPContainer from '@/components/layout/EPContainer'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import styles from './page.module.css'
@@ -137,6 +138,12 @@ export default function LandingPage() {
                 className={styles.navLogoImage}
               />
             </div>
+            <div className={styles.navLinks}>
+              <Link href="/how-it-works">How It Works</Link>
+              <Link href="/about">About Us</Link>
+              <Link href="/blog">Blog</Link>
+              <Link href="/learn">Resources</Link>
+            </div>
             <div className={styles.navActions}>
               <EPButton size="sm" variant="outline" onClick={handleLogin}>
                 Login
@@ -227,14 +234,90 @@ export default function LandingPage() {
       <footer className={styles.footer}>
         <EPContainer maxWidth="xl">
           <div className={styles.footerContent}>
-            <div className={styles.footerLogo}>
+            {/* Logo and tagline section */}
+            <div className={styles.footerBrand}>
               <img
                 src="/assets/Logo files/PNGs - SVGs/SVG/Asset 3.svg"
                 alt="EarnPrime Logo"
-                className={styles.navLogoImage}
+                className={styles.footerLogo}
               />
+              <p className={styles.footerTagline}>Secure short-term investments designed for growth</p>
             </div>
-            <p className={styles.footerCopyright}>&copy; {currentYear} EarnPrime. All rights reserved.</p>
+
+            {/* 4-column navigation grid */}
+            <div className={styles.footerGrid}>
+              {/* Company column */}
+              <div className={styles.footerColumn}>
+                <h3 className={styles.footerColumnTitle}>Company</h3>
+                <ul className={styles.footerLinks}>
+                  <li>
+                    <Link href="/about">About Us</Link>
+                  </li>
+                  <li>
+                    <Link href="/blog">Blog</Link>
+                  </li>
+                  <li>
+                    <Link href="/testimonials">Testimonials</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact">Contact</Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Resources column */}
+              <div className={styles.footerColumn}>
+                <h3 className={styles.footerColumnTitle}>Resources</h3>
+                <ul className={styles.footerLinks}>
+                  <li>
+                    <Link href="/learn">Learning Center</Link>
+                  </li>
+                  <li>
+                    <Link href="/how-it-works">How It Works</Link>
+                  </li>
+                  <li>
+                    <Link href="/faq">FAQ</Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Legal column */}
+              <div className={styles.footerColumn}>
+                <h3 className={styles.footerColumnTitle}>Legal</h3>
+                <ul className={styles.footerLinks}>
+                  <li>
+                    <Link href="/privacy">Privacy Policy</Link>
+                  </li>
+                  <li>
+                    <Link href="/terms">Terms of Service</Link>
+                  </li>
+                  <li>
+                    <Link href="/security">Security</Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Support column */}
+              <div className={styles.footerColumn}>
+                <h3 className={styles.footerColumnTitle}>Support</h3>
+                <ul className={styles.footerLinks}>
+                  <li>
+                    <Link href="/contact">Contact Us</Link>
+                  </li>
+                  <li>
+                    <a href="mailto:support@earnprime.com">support@earnprime.com</a>
+                  </li>
+                  <li>
+                    <a href="tel:1-800-327-6774">1-800-EARN-PRIME</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Copyright section */}
+            <div className={styles.footerBottom}>
+              <p className={styles.footerCopyright}>&copy; {currentYear} EarnPrime. All rights reserved.</p>
+            </div>
           </div>
         </EPContainer>
       </footer>

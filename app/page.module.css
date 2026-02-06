@@ -34,6 +34,24 @@
   width: auto;
 }
 
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLinks a {
+  color: white;
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-base);
+}
+
+.navLinks a:hover {
+  color: var(--color-primary-green);
+}
+
 .navActions {
   display: flex;
   gap: 1rem;
@@ -264,21 +282,79 @@
 
 /* Footer */
 .footer {
-  padding: var(--spacing-2xl) 0;
   background-color: var(--color-neutral-dark);
   color: white;
+  padding: var(--spacing-4xl) 0 var(--spacing-xl);
   margin-top: auto;
 }
 
 .footerContent {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-3xl);
+}
+
+.footerBrand {
+  max-width: 300px;
 }
 
 .footerLogo {
+  height: 40px;
+  width: auto;
+  margin-bottom: var(--spacing-md);
   opacity: 0.9;
+}
+
+.footerTagline {
+  color: var(--color-gray-400);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-2xl);
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.footerColumnTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: white;
+  margin-bottom: var(--spacing-sm);
+}
+
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.footerLinks a {
+  color: var(--color-gray-400);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-base);
+}
+
+.footerLinks a:hover {
+  color: var(--color-primary-green);
+}
+
+.footerBottom {
+  padding-top: var(--spacing-2xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
 }
 
 .footerCopyright {
@@ -341,5 +417,20 @@
 
   .ctaSubtitle {
     font-size: var(--font-size-lg);
+  }
+
+  .navLinks {
+    display: none; /* Hide on mobile, implement hamburger menu later */
+  }
+
+  .footerGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
   }
 }

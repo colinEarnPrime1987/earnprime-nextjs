@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import styles from './login.module.css'
 
 export default function LoginPage() {
@@ -17,7 +17,7 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
@@ -58,11 +58,7 @@ export default function LoginPage() {
           <p className={styles.subtitle}>Sign in to your account</p>
 
           <form onSubmit={handleSubmit} className={styles.form}>
-            {error && (
-              <div className={styles.error}>
-                {error}
-              </div>
-            )}
+            {error && <div className={styles.error}>{error}</div>}
 
             <div className={styles.formGroup}>
               <label htmlFor="username" className={styles.label}>
@@ -72,7 +68,7 @@ export default function LoginPage() {
                 id="username"
                 type="text"
                 value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                onChange={e => setFormData({ ...formData, username: e.target.value })}
                 className={styles.input}
                 required
                 autoComplete="username"
@@ -87,7 +83,7 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={e => setFormData({ ...formData, password: e.target.value })}
                 className={styles.input}
                 required
                 autoComplete="current-password"
@@ -100,20 +96,13 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            <EPButton
-              type="submit"
-              fullWidth
-              disabled={loading}
-              className={styles.submitButton}
-            >
+            <EPButton type="submit" fullWidth disabled={loading} className={styles.submitButton}>
               {loading ? 'Signing in...' : 'Sign In'}
             </EPButton>
           </form>
 
           <div className={styles.mfaNote}>
-            <p className={styles.noteText}>
-              🔒 Multi-factor authentication will be required after initial setup
-            </p>
+            <p className={styles.noteText}>🔒 Multi-factor authentication will be required after initial setup</p>
           </div>
 
           <div className={styles.divider}>

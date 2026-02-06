@@ -5,6 +5,34 @@ All notable changes to the EarnPrime Next.js application will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-02-05
+
+### Added
+- **Marketing Content Pages**
+  - FAQ page with accordion-style questions organized by category
+  - Contact Us page with form and contact methods
+  - Privacy Policy page with comprehensive data protection details
+  - Terms of Service page with legal agreements and disclaimers
+  - Security page highlighting encryption, compliance, and insurance
+  - Testimonials page showcasing customer success stories
+  - Blog page with categorized posts and newsletter signup
+  - Learning Center page with guides, glossary, and video tutorials
+
+### Changed
+- **Navigation Reorganization**
+  - Streamlined header navigation to 4 primary links (How It Works, About Us, Blog, Resources)
+  - Moved secondary pages to organized footer (8 links across 4 categories)
+  - Implemented 4-column footer layout: Company, Resources, Legal, Support
+  - Added footer brand section with logo and tagline
+  - Improved mobile responsiveness (2-column footer on tablet, 1-column on mobile)
+
+### Improved
+- Better information architecture following fintech industry standards
+- Enhanced user experience with clearer navigation hierarchy
+- Reduced header clutter from 11 items to 6 items
+- Added contact information directly in footer (email, phone)
+- Consistent navigation and footer across all pages
+
 ## [0.1.0] - 2026-02-04
 
 ### Added
@@ -59,4 +87,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **0.1.1** - Navigation Reorganization & Marketing Pages
 - **0.1.0** - Phase 1 Complete: Authentication & Registration
