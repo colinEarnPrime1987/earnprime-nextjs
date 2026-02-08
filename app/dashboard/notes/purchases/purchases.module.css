@@ -1,0 +1,268 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Loading */
+.loadingContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #00EA96;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: 1rem;
+  color: #a0a0a0;
+}
+
+/* Layout */
+.container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Top bar */
+.topBar {
+  display: flex;
+  align-items: center;
+}
+
+.backButton {
+  background: transparent;
+  border: 1px solid rgba(0, 234, 150, 0.2);
+  color: #00EA96;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.backButton:hover {
+  background: rgba(0, 234, 150, 0.1);
+}
+
+/* Page title */
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Error banner */
+.errorBanner {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+/* Stats row */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.statCard {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 234, 150, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.statLabel {
+  font-size: 0.8125rem;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00EA96;
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #a0a0a0;
+  font-size: 0.9375rem;
+}
+
+.emptyStateAction {
+  margin-top: 1.25rem;
+}
+
+.browseButton {
+  background: transparent;
+  border: 1px solid rgba(0, 234, 150, 0.3);
+  color: #00EA96;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.browseButton:hover {
+  background: rgba(0, 234, 150, 0.1);
+}
+
+/* Purchases grid */
+.purchasesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1rem;
+}
+
+/* Purchase card */
+.purchaseCard {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 234, 150, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.purchaseCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.purchaseNoteName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Status badges */
+.statusBadge {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusCompleted {
+  color: #00EA96;
+  background: rgba(0, 234, 150, 0.1);
+}
+
+.statusPending {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.statusFailed {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.statusCancelled {
+  color: #a0a0a0;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Amount */
+.purchaseAmount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00EA96;
+  line-height: 1;
+}
+
+/* Details rows */
+.purchaseDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.purchaseDetailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.purchaseDetailLabel {
+  font-size: 0.8125rem;
+  color: #a0a0a0;
+}
+
+.purchaseDetailValue {
+  font-size: 0.8125rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Funded from */
+.fundedFrom {
+  font-size: 0.75rem;
+  color: #666;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .purchasesGrid {
+    grid-template-columns: 1fr;
+  }
+}

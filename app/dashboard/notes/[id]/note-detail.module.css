@@ -1,0 +1,366 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Loading */
+.loadingContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #00EA96;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: 1rem;
+  color: #a0a0a0;
+}
+
+/* Layout */
+.container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Top bar */
+.topBar {
+  display: flex;
+  align-items: center;
+}
+
+.backButton {
+  background: transparent;
+  border: 1px solid rgba(0, 234, 150, 0.2);
+  color: #00EA96;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.backButton:hover {
+  background: rgba(0, 234, 150, 0.1);
+}
+
+/* Note header */
+.noteHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.noteTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Status badges */
+.statusBadge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.625rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusActive {
+  color: #00EA96;
+  background: rgba(0, 234, 150, 0.1);
+}
+
+.statusComingSoon {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.statusClosed {
+  color: #a0a0a0;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Error banner */
+.errorBanner {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+/* Stats row */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.statCard {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 234, 150, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.statLabel {
+  font-size: 0.8125rem;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00EA96;
+}
+
+/* Card */
+.card {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 234, 150, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+}
+
+.descriptionText {
+  font-size: 0.9375rem;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Risk badge */
+.riskBadge {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.75rem;
+}
+
+.riskLow {
+  color: #00EA96;
+  background: rgba(0, 234, 150, 0.1);
+}
+
+.riskMedium {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.riskHigh {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Progress bar */
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #00EA96;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progressLabel {
+  font-size: 0.8125rem;
+  color: #a0a0a0;
+}
+
+/* Purchase form */
+.purchaseForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.formLabel {
+  font-size: 0.8125rem;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.formInput {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 234, 150, 0.15);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: rgba(0, 234, 150, 0.4);
+}
+
+.formSelect {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 234, 150, 0.15);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  width: 100%;
+  appearance: none;
+  cursor: pointer;
+}
+
+.formSelect:focus {
+  outline: none;
+  border-color: rgba(0, 234, 150, 0.4);
+}
+
+.formSelect option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.formHint {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.purchaseButton {
+  background: linear-gradient(135deg, #00EA96, #00c77d);
+  border: none;
+  color: #000000;
+  padding: 0.875rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+
+.purchaseButton:hover {
+  opacity: 0.9;
+}
+
+.purchaseButton:active {
+  transform: scale(0.98);
+}
+
+.purchaseButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success card */
+.successCard {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(0, 234, 150, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.successTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #00EA96;
+  margin: 0 0 0.5rem;
+}
+
+.successAmount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0.75rem 0;
+}
+
+.successDetail {
+  font-size: 0.875rem;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .noteTitle {
+    font-size: 1.25rem;
+  }
+}

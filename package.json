@@ -1,6 +1,6 @@
 {
   "name": "earnprime-nextjs",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "EarnPrime - Secure short-term investment platform",
   "main": "index.js",
   "scripts": {
@@ -14,9 +14,14 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@types/pg": "^8.16.0",
+    "dotenv": "^17.2.4",
     "next": "^16.1.6",
+    "pg": "^8.18.0",
+    "plaid": "^41.1.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-plaid-link": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "^25.2.0",
