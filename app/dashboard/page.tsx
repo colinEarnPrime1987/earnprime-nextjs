@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
@@ -67,6 +68,7 @@ function InstitutionCardLogo({ institution }: { institution: Institution }) {
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { data: session } = useSession()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -156,10 +158,16 @@ export default function DashboardPage() {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Clear custom session
     apiClient.logout()
     document.cookie = 'sessionId=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    router.push('/login')
+    // Clear NextAuth session (if any) and redirect to login
+    if (session) {
+      await signOut({ callbackUrl: '/login' })
+    } else {
+      router.push('/login')
+    }
   }
 
   if (loading) {
@@ -186,7 +194,9 @@ export default function DashboardPage() {
               <AnimatedLogo width={120} height={80} />
             </Link>
             <div>
-              <div className={styles.greeting}>Welcome back</div>
+              <div className={styles.greeting}>
+                Welcome back{session?.user?.name ? `, ${session.user.name.split(' ')[0]}` : ''}
+              </div>
               <div className={styles.greetingSub}>Your financial overview</div>
             </div>
           </div>

@@ -171,34 +171,44 @@
   text-decoration: underline;
 }
 
-.futureFeatures {
+.ssoSection {
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.futureText {
-  font-size: 0.8125rem;
-  color: #808080;
-  text-align: center;
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .ssoButton {
   width: 100%;
   padding: 0.875rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  color: #808080;
+  color: #e0e0e0;
   font-size: 0.9375rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ssoButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.ssoButton:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
-  margin-bottom: 0.75rem;
+  opacity: 0.4;
+  color: #808080;
+}
+
+.googleIcon {
+  flex-shrink: 0;
 }
 
 .ssoIcon {
@@ -211,6 +221,14 @@
   justify-content: center;
   font-weight: 700;
   font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.comingSoon {
+  font-size: 0.6875rem;
+  color: #606060;
+  margin-left: auto;
+  font-style: italic;
 }
 
 @media (max-width: 768px) {
