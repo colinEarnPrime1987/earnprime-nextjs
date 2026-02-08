@@ -51,7 +51,9 @@ export default function LoginPage() {
       <div className={styles.loginContainer}>
         <div className={styles.loginCard}>
           <div className={styles.logoContainer}>
-            <AnimatedLogo width={300} height={200} />
+            <Link href="/" aria-label="Back to home">
+              <AnimatedLogo width={300} height={200} />
+            </Link>
           </div>
 
           <h1 className={styles.title}>Welcome Back</h1>

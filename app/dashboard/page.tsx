@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
+import Link from 'next/link'
 import PlaidLink from '@/components/PlaidLink'
 import { apiClient } from '@/lib/api-client'
 import styles from './dashboard.module.css'
@@ -181,7 +182,9 @@ export default function DashboardPage() {
         {/* Header */}
         <header className={styles.header}>
           <div className={styles.headerLeft}>
-            <AnimatedLogo width={120} height={80} />
+            <Link href="/" aria-label="Back to home">
+              <AnimatedLogo width={120} height={80} />
+            </Link>
             <div>
               <div className={styles.greeting}>Welcome back</div>
               <div className={styles.greetingSub}>Your financial overview</div>

@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import styles from './register.module.css'
 
 interface RegistrationForm {
@@ -80,11 +80,7 @@ export default function RegisterPage() {
 
     // Auto-check accredited investor
     if (field === 'householdIncome' || field === 'netWorth' || field === 'maritalStatus') {
-      const isAccredited = checkAccreditedStatus(
-        updated.householdIncome,
-        updated.netWorth,
-        updated.maritalStatus
-      )
+      const isAccredited = checkAccreditedStatus(updated.householdIncome, updated.netWorth, updated.maritalStatus)
       updated.accreditedInvestor = isAccredited
     }
 
@@ -107,8 +103,14 @@ export default function RegisterPage() {
         return true
 
       case 2: // Contact Info
-        if (!formData.email || !formData.phone || !formData.addressLine1 ||
-            !formData.city || !formData.state || !formData.zipCode) {
+        if (
+          !formData.email ||
+          !formData.phone ||
+          !formData.addressLine1 ||
+          !formData.city ||
+          !formData.state ||
+          !formData.zipCode
+        ) {
           setError('Please fill in all required fields')
           return false
         }
@@ -192,7 +194,9 @@ export default function RegisterPage() {
       <div className={styles.registerContainer}>
         <div className={styles.registerCard}>
           <div className={styles.logoContainer}>
-            <AnimatedLogo width={250} height={175} />
+            <Link href="/" aria-label="Back to home">
+              <AnimatedLogo width={250} height={175} />
+            </Link>
           </div>
 
           <h1 className={styles.title}>Create Your Account</h1>
@@ -200,18 +204,11 @@ export default function RegisterPage() {
 
           {/* Progress Bar */}
           <div className={styles.progressBar}>
-            <div
-              className={styles.progressFill}
-              style={{ width: `${(currentStep / 4) * 100}%` }}
-            />
+            <div className={styles.progressFill} style={{ width: `${(currentStep / 4) * 100}%` }} />
           </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
-            {error && (
-              <div className={styles.error}>
-                {error}
-              </div>
-            )}
+            {error && <div className={styles.error}>{error}</div>}
 
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
@@ -224,7 +221,7 @@ export default function RegisterPage() {
                     <input
                       type="text"
                       value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      onChange={e => handleInputChange('firstName', e.target.value)}
                       className={styles.input}
                       required
                     />
@@ -235,7 +232,7 @@ export default function RegisterPage() {
                     <input
                       type="text"
                       value={formData.middleName}
-                      onChange={(e) => handleInputChange('middleName', e.target.value)}
+                      onChange={e => handleInputChange('middleName', e.target.value)}
                       className={styles.input}
                     />
                   </div>
@@ -247,7 +244,7 @@ export default function RegisterPage() {
                     <input
                       type="text"
                       value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      onChange={e => handleInputChange('lastName', e.target.value)}
                       className={styles.input}
                       required
                     />
@@ -257,7 +254,7 @@ export default function RegisterPage() {
                     <label className={styles.label}>Suffix</label>
                     <select
                       value={formData.suffix}
-                      onChange={(e) => handleInputChange('suffix', e.target.value)}
+                      onChange={e => handleInputChange('suffix', e.target.value)}
                       className={styles.input}
                     >
                       <option value="">None</option>
@@ -276,7 +273,7 @@ export default function RegisterPage() {
                     <input
                       type="date"
                       value={formData.dob}
-                      onChange={(e) => handleInputChange('dob', e.target.value)}
+                      onChange={e => handleInputChange('dob', e.target.value)}
                       className={styles.input}
                       required
                     />
@@ -288,7 +285,7 @@ export default function RegisterPage() {
                       type="text"
                       placeholder="XXX-XX-XXXX"
                       value={formData.ssn}
-                      onChange={(e) => handleInputChange('ssn', e.target.value)}
+                      onChange={e => handleInputChange('ssn', e.target.value)}
                       className={styles.input}
                       maxLength={11}
                       required
@@ -309,7 +306,7 @@ export default function RegisterPage() {
                   <input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    onChange={e => handleInputChange('email', e.target.value)}
                     className={styles.input}
                     required
                   />
@@ -321,7 +318,7 @@ export default function RegisterPage() {
                     type="tel"
                     placeholder="(XXX) XXX-XXXX"
                     value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    onChange={e => handleInputChange('phone', e.target.value)}
                     className={styles.input}
                     required
                   />
@@ -332,7 +329,7 @@ export default function RegisterPage() {
                   <input
                     type="text"
                     value={formData.addressLine1}
-                    onChange={(e) => handleInputChange('addressLine1', e.target.value)}
+                    onChange={e => handleInputChange('addressLine1', e.target.value)}
                     className={styles.input}
                     required
                   />
@@ -343,7 +340,7 @@ export default function RegisterPage() {
                   <input
                     type="text"
                     value={formData.addressLine2}
-                    onChange={(e) => handleInputChange('addressLine2', e.target.value)}
+                    onChange={e => handleInputChange('addressLine2', e.target.value)}
                     className={styles.input}
                     placeholder="Apt, Suite, Unit, etc."
                   />
@@ -355,7 +352,7 @@ export default function RegisterPage() {
                     <input
                       type="text"
                       value={formData.city}
-                      onChange={(e) => handleInputChange('city', e.target.value)}
+                      onChange={e => handleInputChange('city', e.target.value)}
                       className={styles.input}
                       required
                     />
@@ -365,7 +362,7 @@ export default function RegisterPage() {
                     <label className={styles.label}>State *</label>
                     <select
                       value={formData.state}
-                      onChange={(e) => handleInputChange('state', e.target.value)}
+                      onChange={e => handleInputChange('state', e.target.value)}
                       className={styles.input}
                       required
                     >
@@ -385,7 +382,7 @@ export default function RegisterPage() {
                     <input
                       type="text"
                       value={formData.zipCode}
-                      onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                      onChange={e => handleInputChange('zipCode', e.target.value)}
                       className={styles.input}
                       maxLength={5}
                       required
@@ -404,7 +401,7 @@ export default function RegisterPage() {
                   <label className={styles.label}>Net Worth *</label>
                   <select
                     value={formData.netWorth}
-                    onChange={(e) => handleInputChange('netWorth', e.target.value)}
+                    onChange={e => handleInputChange('netWorth', e.target.value)}
                     className={styles.input}
                     required
                   >
@@ -421,7 +418,7 @@ export default function RegisterPage() {
                   <label className={styles.label}>Household Income *</label>
                   <select
                     value={formData.householdIncome}
-                    onChange={(e) => handleInputChange('householdIncome', e.target.value)}
+                    onChange={e => handleInputChange('householdIncome', e.target.value)}
                     className={styles.input}
                     required
                   >
@@ -439,7 +436,7 @@ export default function RegisterPage() {
                   <label className={styles.label}>Marital Status *</label>
                   <select
                     value={formData.maritalStatus}
-                    onChange={(e) => handleInputChange('maritalStatus', e.target.value)}
+                    onChange={e => handleInputChange('maritalStatus', e.target.value)}
                     className={styles.input}
                     required
                   >
@@ -454,9 +451,13 @@ export default function RegisterPage() {
                       type="checkbox"
                       id="accredited"
                       checked={formData.accreditedInvestor}
-                      onChange={(e) => handleInputChange('accreditedInvestor', e.target.checked)}
+                      onChange={e => handleInputChange('accreditedInvestor', e.target.checked)}
                       className={styles.checkbox}
-                      disabled={checkAccreditedStatus(formData.householdIncome, formData.netWorth, formData.maritalStatus)}
+                      disabled={checkAccreditedStatus(
+                        formData.householdIncome,
+                        formData.netWorth,
+                        formData.maritalStatus
+                      )}
                     />
                     <label htmlFor="accredited" className={styles.checkboxLabel}>
                       Accredited Investor
@@ -481,7 +482,7 @@ export default function RegisterPage() {
                   <input
                     type="text"
                     value={formData.username}
-                    onChange={(e) => handleInputChange('username', e.target.value)}
+                    onChange={e => handleInputChange('username', e.target.value)}
                     className={styles.input}
                     required
                     autoComplete="username"
@@ -493,7 +494,7 @@ export default function RegisterPage() {
                   <input
                     type="password"
                     value={formData.password}
-                    onChange={(e) => handleInputChange('password', e.target.value)}
+                    onChange={e => handleInputChange('password', e.target.value)}
                     className={styles.input}
                     required
                     autoComplete="new-password"
@@ -506,7 +507,7 @@ export default function RegisterPage() {
                   <input
                     type="password"
                     value={formData.confirmPassword}
-                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                    onChange={e => handleInputChange('confirmPassword', e.target.value)}
                     className={styles.input}
                     required
                     autoComplete="new-password"
@@ -524,30 +525,17 @@ export default function RegisterPage() {
             {/* Navigation Buttons */}
             <div className={styles.buttonGroup}>
               {currentStep > 1 && (
-                <EPButton
-                  type="button"
-                  variant="outline"
-                  onClick={handleBack}
-                  disabled={loading}
-                >
+                <EPButton type="button" variant="outline" onClick={handleBack} disabled={loading}>
                   Back
                 </EPButton>
               )}
 
               {currentStep < 4 ? (
-                <EPButton
-                  type="button"
-                  onClick={handleNext}
-                  fullWidth={currentStep === 1}
-                >
+                <EPButton type="button" onClick={handleNext} fullWidth={currentStep === 1}>
                   Next
                 </EPButton>
               ) : (
-                <EPButton
-                  type="submit"
-                  disabled={loading}
-                  fullWidth
-                >
+                <EPButton type="submit" disabled={loading} fullWidth>
                   {loading ? 'Creating Account...' : 'Create Account'}
                 </EPButton>
               )}

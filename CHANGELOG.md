@@ -5,6 +5,65 @@ All notable changes to the EarnPrime Next.js application will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-02-08
+
+### Fixed
+- Register page dropdown backgrounds now use solid dark color so text is visible
+
+### Added
+- "Back to top" floating button on the landing page (appears on scroll)
+- Logo on dashboard, login, and register pages now links back to landing page
+- Landing page nav logo scrolls to top on click
+
+## [0.2.0] - 2026-02-07
+
+### Added
+- **Fastify Backend API**
+  - Full REST API server on port 3002 with TypeScript and `@/` path aliases
+  - JWT authentication with bcrypt password hashing
+  - Zod request validation on all endpoints
+  - Centralized error handling
+
+- **Plaid Banking Integration**
+  - Connect bank accounts via Plaid Link (sandbox environment)
+  - Exchange public tokens for encrypted access tokens (AES-256-GCM)
+  - View institutions, accounts, and balances
+  - Sync and browse transaction history from Plaid
+  - Refresh live balances per institution
+  - Disconnect institutions (removes from Plaid + database)
+  - Institution detail pages with account drill-down
+  - Account detail pages with transaction history
+
+- **Notes Marketplace**
+  - `notes` and `note_purchases` database tables with seed data
+  - Browse investment notes with APY rates, terms, risk ratings, and capacity
+  - Note detail page with description, availability progress bar, and risk badge
+  - Purchase form with bank account selection and amount validation
+  - Atomic purchase transactions (capacity check + insert in single DB transaction)
+  - Dedicated "My Investments" portfolio page with stats and purchase cards
+  - "My Investments" button on Notes Marketplace for quick navigation
+
+- **Dashboard Enhancements**
+  - "Invest" section with Notes Marketplace link card
+  - Institution cards with aggregated balances (clickable to detail)
+  - Cross-bank transaction feed (click stat card to toggle)
+
+- **Frontend API Client**
+  - Centralized `ApiClient` class in `lib/api-client.ts`
+  - Auth, Plaid, and Notes endpoint methods
+  - Automatic JWT token management via localStorage
+
+- **Documentation**
+  - `docs/user-guide.md` — End-to-end walkthrough for all features
+  - `docs/plaid-integration-flow.md` — Plaid technical integration details
+
+### Technical
+- Aurora PostgreSQL database on AWS RDS
+- Backend TypeScript with Fastify, `pg` driver, Zod validation
+- Frontend API client pattern for all backend communication
+- CSS Modules with consistent glass-morphism design system
+- Database migrations via SQL files (`schema.sql`, `migrate-notes.sql`)
+
 ## [0.1.1] - 2026-02-05
 
 ### Added
@@ -87,5 +146,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **0.2.0** - Plaid Integration, Backend API, and Notes Marketplace
 - **0.1.1** - Navigation Reorganization & Marketing Pages
 - **0.1.0** - Phase 1 Complete: Authentication & Registration

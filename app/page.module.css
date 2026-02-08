@@ -363,6 +363,41 @@
   margin: 0;
 }
 
+/* Back to Top Button */
+.backToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid rgba(0, 234, 150, 0.3);
+  color: #00EA96;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.backToTop:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 234, 150, 0.15);
+  border-color: rgba(0, 234, 150, 0.5);
+}
+
+.backToTopVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero {

@@ -113,7 +113,10 @@
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 3px rgba(0, 234, 150, 0.1);
 }
-
+.input option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
 .helpText {
   font-size: 0.75rem;
   color: #808080;

@@ -131,7 +131,7 @@ export default function LandingPage() {
       <nav className={styles.nav}>
         <EPContainer maxWidth="xl">
           <div className={styles.navContent}>
-            <div className={styles.navLogo}>
+            <div className={styles.navLogo} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
               <img
                 src="/assets/Logo files/PNGs - SVGs/SVG/Asset 3.svg"
                 alt="EarnPrime Logo"
@@ -229,6 +229,15 @@ export default function LandingPage() {
           </div>
         </EPContainer>
       </section>
+
+      {/* Back to Top Button */}
+      <button
+        className={`${styles.backToTop} ${scrollY > 400 ? styles.backToTopVisible : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Back to top"
+      >
+        ↑
+      </button>
 
       {/* Footer */}
       <footer className={styles.footer}>
