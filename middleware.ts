@@ -6,6 +6,10 @@ function isAuthPath(pathname: string): boolean {
   if (pathname === '/login') return true
   if (pathname.startsWith('/api/auth/')) return true
 
+  // TODO: Re-enable /register when ready for production
+  // Registration is disabled — only Google Workspace SSO is active
+  if (pathname === '/register') return false
+
   // Static files and Next.js internals
   if (pathname.startsWith('/_next/')) return true
   if (pathname.startsWith('/favicon')) return true
@@ -26,11 +30,11 @@ export default auth((req) => {
     return NextResponse.next()
   }
 
-  // Check for existing custom session cookie
-  const sessionId = req.cookies.get('sessionId')?.value
-  if (sessionId) {
-    return NextResponse.next()
-  }
+  // TODO: Re-enable custom session cookie check when email/password login is restored
+  // const sessionId = req.cookies.get('sessionId')?.value
+  // if (sessionId) {
+  //   return NextResponse.next()
+  // }
 
   // Unauthenticated — redirect to login
   const loginUrl = new URL('/login', req.url)

@@ -2,11 +2,13 @@
 
 import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
-import EPButton from '@/components/base/EPButton'
+// TODO: Re-enable when email/password login is restored
+// import EPButton from '@/components/base/EPButton'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+// TODO: Re-enable useRouter when email/password login is restored
+import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import styles from './login.module.css'
 
 function GoogleIcon() {
@@ -21,45 +23,47 @@ function GoogleIcon() {
 }
 
 function LoginContent() {
-  const router = useRouter()
+  // const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
   const authError = searchParams.get('error')
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  })
-  const [error, setError] = useState(
-    authError === 'AccessDenied' ? 'Only @earnprime.org accounts are allowed.' : ''
-  )
-  const [loading, setLoading] = useState(false)
+  const error = authError === 'AccessDenied' ? 'Only @earnprime.org accounts are allowed.' : ''
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed')
-      }
-
-      // Redirect to dashboard (or callbackUrl) on success
-      router.push(callbackUrl)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
-    } finally {
-      setLoading(false)
-    }
-  }
+  // TODO: Re-enable email/password login when ready for production
+  // const [formData, setFormData] = useState({
+  //   username: '',
+  //   password: '',
+  // })
+  // const [error, setError] = useState(
+  //   authError === 'AccessDenied' ? 'Only @earnprime.org accounts are allowed.' : ''
+  // )
+  // const [loading, setLoading] = useState(false)
+  //
+  // const handleSubmit = async (e: React.SubmitEvent) => {
+  //   e.preventDefault()
+  //   setError('')
+  //   setLoading(true)
+  //
+  //   try {
+  //     const response = await fetch('/api/auth/login', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(formData),
+  //     })
+  //
+  //     const data = await response.json()
+  //
+  //     if (!response.ok) {
+  //       throw new Error(data.error || 'Login failed')
+  //     }
+  //
+  //     router.push(callbackUrl)
+  //   } catch (err) {
+  //     setError(err instanceof Error ? err.message : 'An error occurred')
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
   return (
     <div className={styles.loginPage}>
@@ -68,14 +72,26 @@ function LoginContent() {
       <div className={styles.loginContainer}>
         <div className={styles.loginCard}>
           <div className={styles.logoContainer}>
-            <Link href="/" aria-label="Back to home">
-              <AnimatedLogo width={300} height={200} />
-            </Link>
+            <AnimatedLogo width={300} height={200} />
           </div>
 
           <h1 className={styles.title}>Welcome Back</h1>
-          <p className={styles.subtitle}>Sign in to your account</p>
+          <p className={styles.subtitle}>Sign in with your EarnPrime workspace account</p>
 
+          {error && <div className={styles.error}>{error}</div>}
+
+          <div className={styles.ssoSection}>
+            <button
+              className={styles.ssoButton}
+              onClick={() => signIn('google', { callbackUrl })}
+              type="button"
+            >
+              <GoogleIcon />
+              Continue with Google
+            </button>
+          </div>
+
+          {/* TODO: Re-enable when ready for production
           <form onSubmit={handleSubmit} className={styles.form}>
             {error && <div className={styles.error}>{error}</div>}
 
@@ -137,21 +153,12 @@ function LoginContent() {
             </p>
           </div>
 
-          <div className={styles.ssoSection}>
-            <button
-              className={styles.ssoButton}
-              onClick={() => signIn('google', { callbackUrl })}
-              type="button"
-            >
-              <GoogleIcon />
-              Continue with Google
-            </button>
-            <button className={styles.ssoButton} disabled>
-              <span className={styles.ssoIcon}></span>
-              Continue with Apple
-              <span className={styles.comingSoon}>Coming soon</span>
-            </button>
-          </div>
+          <button className={styles.ssoButton} disabled>
+            <span className={styles.ssoIcon}></span>
+            Continue with Apple
+            <span className={styles.comingSoon}>Coming soon</span>
+          </button>
+          */}
         </div>
       </div>
     </div>

@@ -4,8 +4,9 @@ import { getSession } from '@/lib/session'
 
 export async function POST(request: NextRequest) {
   try {
-    // Get user session
-    const session = await getSession(request)
+    // Get user session from cookie
+    const sessionId = request.cookies.get('sessionId')?.value
+    const session = sessionId ? getSession(sessionId) : null
 
     // In sandbox mode, allow testing without authentication
     if (!session && process.env.PLAID_ENV !== 'sandbox') {
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // Extract identity verification results
     const accounts = identityData.accounts || []
-    const identityInfo = identityData.identity || []
+    const identityInfo = (identityData as any).identity || []
 
     // Check if SSN is verified (if available)
     let ssnVerified = false

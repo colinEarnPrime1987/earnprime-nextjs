@@ -179,7 +179,7 @@ export default function ContactPage() {
                   ></textarea>
                 </div>
 
-                <EPButton type="submit" size="lg" style={{ width: '100%' }}>
+                <EPButton type="submit" size="lg" fullWidth>
                   Send Message
                 </EPButton>
               </form>

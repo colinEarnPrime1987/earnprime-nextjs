@@ -4,8 +4,9 @@ import { getSession } from '@/lib/session'
 
 export async function POST(request: NextRequest) {
   try {
-    // Get user session
-    const session = await getSession(request)
+    // Get user session from cookie
+    const sessionId = request.cookies.get('sessionId')?.value
+    const session = sessionId ? getSession(sessionId) : null
 
     // In sandbox mode, allow testing without authentication
     const userId = session?.userId ||
