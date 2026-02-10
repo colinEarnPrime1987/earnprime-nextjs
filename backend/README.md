@@ -1,122 +1,147 @@
 # EarnPrime Backend API
 
-A production-ready backend API server for EarnPrime built with Fastify, TypeScript, and PostgreSQL.
+Fastify API server for EarnPrime with JWT auth, Plaid banking integration, and Notes Marketplace.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install dependencies
 npm install
-
-# Run database migration
-npx tsx src/db/migrate.ts
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
+npm run dev        # http://localhost:3002
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-backend/
-├── src/
-│   ├── db/              # Database connection and migrations
-│   ├── middleware/      # Auth and other middleware
-│   ├── repositories/    # Data access layer
-│   ├── routes/          # API endpoints
-│   ├── services/        # Business logic
-│   ├── types/           # TypeScript types
-│   └── server.ts        # Main server file
-├── .env                 # Environment variables
-├── package.json
-└── tsconfig.json
+backend/src/
+├── db/
+│   ├── connection.ts              # PostgreSQL pool + query helpers
+│   ├── schema.sql                 # Core tables (users, plaid_items, bank_accounts, transactions)
+│   └── migrate-notes.sql          # Notes marketplace tables + seed data
+├── middleware/
+│   └── auth.middleware.ts         # JWT verification (optionalAuth)
+├── repositories/
+│   ├── user.repository.ts        # User CRUD
+│   ├── plaid.repository.ts       # Plaid items, accounts, transactions
+│   └── notes.repository.ts       # Notes + atomic purchase transactions
+├── routes/
+│   ├── auth.routes.ts             # Register, login, me
+│   ├── plaid.routes.ts            # Plaid Link, accounts, balances, transactions
+│   └── notes.routes.ts            # Notes listing, detail, purchase, user purchases
+├── services/
+│   ├── auth.service.ts            # Password hashing, JWT generation
+│   ├── plaid.service.ts           # Plaid API calls + data sync
+│   └── notes.service.ts           # Purchase validation + orchestration
+├── types/
+│   └── index.ts                   # All TypeScript interfaces
+├── utils/
+│   └── crypto.ts                  # AES-256-GCM encrypt/decrypt
+└── server.ts                      # Fastify setup, CORS, route registration
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
-### Health Check
-- `GET /health` - Check server and database status
+### Health
 
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user (requires auth)
+- `GET /health` — Server + database status
 
-### Plaid Integration
-- `POST /api/plaid/create-link-token` - Create Plaid Link token
-- `POST /api/plaid/exchange-token` - Exchange public token for access token
-- `GET /api/plaid/accounts` - Get user's bank accounts (requires auth)
-- `GET /api/plaid/balances` - Get account balances (requires auth)
-- `POST /api/plaid/sync-transactions` - Sync transactions from Plaid (requires auth)
-- `GET /api/plaid/transactions?limit=100` - Get transactions (requires auth)
+### Auth (`/api/auth`)
 
-## 🗄️ Database Schema
+| Method | Path        | Auth | Description                      |
+| ------ | ----------- | ---- | -------------------------------- |
+| POST   | `/register` | No   | Create account (email, password) |
+| POST   | `/login`    | No   | Login, returns JWT token         |
+| GET    | `/me`       | Yes  | Get current user profile         |
 
-### Tables
-- **users** - User accounts
-- **plaid_items** - Connected bank institutions
-- **bank_accounts** - Bank account details
-- **transactions** - Transaction history
+### Plaid (`/api/plaid`)
 
-See `src/db/schema.sql` for full schema.
+| Method | Path                                          | Auth | Description                           |
+| ------ | --------------------------------------------- | ---- | ------------------------------------- |
+| POST   | `/create-link-token`                          | Yes  | Generate Plaid Link token             |
+| POST   | `/exchange-token`                             | Yes  | Exchange public token, store accounts |
+| GET    | `/accounts`                                   | Yes  | All user bank accounts                |
+| GET    | `/balances`                                   | Yes  | Refresh balances from Plaid           |
+| POST   | `/sync-transactions`                          | Yes  | Sync transactions from Plaid          |
+| GET    | `/transactions`                               | Yes  | All user transactions                 |
+| GET    | `/institutions`                               | Yes  | List connected institutions           |
+| GET    | `/institutions/:id/accounts`                  | Yes  | Accounts for an institution           |
+| GET    | `/institutions/:id/balances`                  | Yes  | Refresh institution balances          |
+| GET    | `/institutions/:id/accounts/:id`              | Yes  | Single account detail                 |
+| GET    | `/institutions/:id/accounts/:id/transactions` | Yes  | Account transactions                  |
+| GET    | `/institutions/:id/transactions`              | Yes  | Institution transactions              |
+| DELETE | `/institutions/:id`                           | Yes  | Disconnect institution                |
 
-## 🔐 Authentication
+### Notes (`/api/notes`)
 
-The API uses JWT (JSON Web Tokens) for authentication. After login/register, include the token in requests:
+| Method | Path                | Auth | Description               |
+| ------ | ------------------- | ---- | ------------------------- |
+| GET    | `/`                 | No   | List all investment notes |
+| GET    | `/purchases/me`     | Yes  | User's purchase history   |
+| GET    | `/:noteId`          | No   | Note detail               |
+| POST   | `/:noteId/purchase` | Yes  | Purchase a note           |
 
-```typescript
-headers: {
-  'Authorization': 'Bearer YOUR_JWT_TOKEN'
+**Purchase request body:**
+
+```json
+{
+  "bank_account_id": "uuid",
+  "amount": 1000.0
 }
 ```
 
-## 🌍 Environment Variables
+**Purchase validations:**
 
-Copy `.env.example` to `.env` and configure:
+- Note must exist and be `active`
+- Amount >= note's `min_investment`
+- Amount <= remaining capacity (`max_capacity - current_invested`)
+- Bank account must belong to the authenticated user
+
+## Database
+
+### Tables
+
+| Table            | Purpose                                                  |
+| ---------------- | -------------------------------------------------------- |
+| `users`          | User accounts (email, bcrypt password hash)              |
+| `plaid_items`    | Connected institutions (encrypted access tokens)         |
+| `bank_accounts`  | Account details and balances                             |
+| `transactions`   | Transaction history synced from Plaid                    |
+| `notes`          | Investment notes (APY, capacity, risk, status)           |
+| `note_purchases` | Purchase records linking users, notes, and bank accounts |
+
+### Running Migrations
+
+```bash
+# Core schema
+psql <connection_string> -f src/db/schema.sql
+
+# Notes marketplace
+psql <connection_string> -f src/db/migrate-notes.sql
+```
+
+## Security
+
+- **Passwords:** bcrypt hashed
+- **Access tokens:** AES-256-GCM encrypted at the repository layer
+- **Auth:** JWT tokens via `Authorization: Bearer <token>` header
+- **Purchases:** Atomic DB transactions (BEGIN/COMMIT/ROLLBACK)
+- **Validation:** Zod schemas on all request bodies
+
+## Environment Variables
+
+Copy `.env.example` to `.env`:
 
 ```env
 PORT=3002
 NODE_ENV=development
-DB_HOST=your-db-host
+DB_HOST=your-rds-endpoint
 DB_PORT=5432
-DB_NAME=postgres
-DB_USER=your-db-user
-DB_PASSWORD="your-password"
+DB_NAME=your-database
+DB_USER=your-user
+DB_PASSWORD=your-password
 JWT_SECRET=your-jwt-secret
 PLAID_CLIENT_ID=your-plaid-client-id
 PLAID_SANDBOX_SECRET=your-plaid-secret
 PLAID_ENV=sandbox
-FRONTEND_URL=http://localhost:3001
+ENCRYPTION_KEY=64-char-hex-key
+FRONTEND_URL=http://localhost:3000
 ```
-
-## 🧪 Testing
-
-The backend server is running on `http://localhost:3002`
-
-Test the health endpoint:
-```bash
-curl http://localhost:3002/health
-```
-
-## 📝 Development Notes
-
-- The server automatically reloads on file changes in dev mode
-- Database migrations must be run before first startup
-- CORS is configured to allow requests from the frontend URL
-- All passwords are hashed using bcrypt
-- Access tokens are stored encrypted in the database (production ready)
-
-## 🔄 Next Steps
-
-1. **Add more endpoints** as needed for your business logic
-2. **Set up proper logging** with a logging service in production
-3. **Add rate limiting** for API endpoints
-4. **Set up webhooks** from Plaid for real-time updates
-5. **Add comprehensive tests** (unit, integration, e2e)
-6. **Set up CI/CD** for automated deployments

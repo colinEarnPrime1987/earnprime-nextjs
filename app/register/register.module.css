@@ -11,7 +11,7 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 680px;
+  max-width: 520px;
 }
 
 .registerCard {
@@ -45,38 +45,112 @@
   margin-bottom: 1.5rem;
 }
 
-.progressBar {
+/* Agreement section */
+.agreementSection {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.agreementLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.agreementCheckbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary-green);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.agreementText {
+  font-size: 0.8125rem;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.agreementLink {
+  color: var(--color-primary-green);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.agreementLink:hover {
+  color: #00ea96;
+  text-decoration: underline;
+}
+
+/* SSO Buttons */
+.ssoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ssoButton {
   width: 100%;
-  height: 4px;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 0.9375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ssoButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.ssoButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  color: #808080;
+}
+
+.googleIcon {
+  flex-shrink: 0;
+}
+
+.ssoIcon {
+  width: 20px;
+  height: 20px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  margin-bottom: 2rem;
-  overflow: hidden;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  flex-shrink: 0;
 }
 
-.progressFill {
-  height: 100%;
-  background: var(--color-primary-green);
-  transition: width 0.3s ease;
+.comingSoon {
+  font-size: 0.6875rem;
+  color: #606060;
+  margin-left: auto;
+  font-style: italic;
 }
 
+/* Email form */
 .form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.stepTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 0.5rem;
 }
 
 .formRow {
@@ -113,15 +187,6 @@
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 3px rgba(0, 234, 150, 0.1);
 }
-.input option {
-  background: #1a1a1a;
-  color: #ffffff;
-}
-.helpText {
-  font-size: 0.75rem;
-  color: #808080;
-  margin-top: -0.25rem;
-}
 
 .error {
   padding: 1rem;
@@ -131,58 +196,6 @@
   color: #fca5a5;
   font-size: 0.875rem;
   text-align: center;
-}
-
-.accreditedSection {
-  padding: 1.25rem;
-  background: rgba(0, 234, 150, 0.05);
-  border: 1px solid rgba(0, 234, 150, 0.2);
-  border-radius: 8px;
-}
-
-.checkboxGroup {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.checkbox {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--color-primary-green);
-  cursor: pointer;
-}
-
-.checkbox:disabled {
-  cursor: not-allowed;
-}
-
-.checkboxLabel {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0;
-}
-
-.accreditedInfo {
-  font-size: 0.8125rem;
-  color: #a0e0c9;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.termsSection {
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-}
-
-.termsText {
-  font-size: 0.8125rem;
-  color: #a0a0a0;
-  line-height: 1.5;
-  margin: 0;
 }
 
 .buttonGroup {

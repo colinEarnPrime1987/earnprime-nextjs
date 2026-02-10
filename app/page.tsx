@@ -22,8 +22,8 @@ export default function LandingPage() {
   // Features data
   const features = [
     {
-      title: 'High Returns',
-      description: 'Competitive interest rates up to 6.70% APY on short-term notes with flexible terms.',
+      title: 'Competitive Rates',
+      description: 'Earn up to 6.70% APY on short-term notes — rates that rival high yield and jumbo CDs.',
       icon: `<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#00EA96" opacity="0.1"/>
         <path d="M24 12L28 20H20L24 12Z" fill="#00EA96"/>
@@ -32,7 +32,8 @@ export default function LandingPage() {
     },
     {
       title: 'Short-Term Flexibility',
-      description: '270-day maturity with options for auto-renewal or monthly interest payments.',
+      description:
+        '270-day maturity with options for auto-renewal or monthly interest payments — without the lock-in of traditional CDs.',
       icon: `<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#00EA96" opacity="0.1"/>
         <circle cx="24" cy="24" r="8" stroke="#00EA96" stroke-width="2" fill="none"/>
@@ -131,7 +132,11 @@ export default function LandingPage() {
       <nav className={styles.nav}>
         <EPContainer maxWidth="xl">
           <div className={styles.navContent}>
-            <div className={styles.navLogo} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ cursor: 'pointer' }}>
+            <div
+              className={styles.navLogo}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              style={{ cursor: 'pointer' }}
+            >
               <img
                 src="/assets/Logo files/PNGs - SVGs/SVG/Asset 3.svg"
                 alt="EarnPrime Logo"
@@ -177,7 +182,8 @@ export default function LandingPage() {
               Invest in Your <span className={styles.textPrimaryGlow}>Prime</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Secure, transparent short-term investment notes designed to help you grow your wealth with confidence.
+              Short-term investment notes with rates that compete with high yield CDs — designed to help you grow your
+              wealth with confidence.
             </p>
             <div className={styles.heroActions}>
               <EPButton size="lg" onClick={handleGetStarted}>
@@ -222,8 +228,10 @@ export default function LandingPage() {
         <EPContainer maxWidth="lg">
           <div className={styles.ctaContent}>
             <h2 className={styles.ctaTitle}>Ready to Start Earning?</h2>
-            <p className={styles.ctaSubtitle}>Join EarnPrime today and take control of your financial future.</p>
-            <EPButton size="lg" onClick={handleGetStarted}>
+            <p className={styles.ctaSubtitle}>
+              A smarter alternative to high yield CDs. Take control of your financial future.
+            </p>
+            <EPButton size="lg" variant="secondary" onClick={handleGetStarted}>
               Create Your Account
             </EPButton>
           </div>

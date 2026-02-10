@@ -97,7 +97,6 @@
 
 .textPrimaryGlow {
   color: var(--color-primary-green);
-  text-shadow: 0 0 30px rgba(0, 234, 150, 0.5);
 }
 
 .heroSubtitle {

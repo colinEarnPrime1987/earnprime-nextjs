@@ -35,7 +35,7 @@
 /* Variants */
 .epButton--primary {
   background: var(--color-primary-green);
-  color: var(--color-neutral-white);
+  color: rgba(0, 0, 0, 1);
 }
 
 .epButton--primary:hover:not(.epButton--disabled) {
@@ -63,7 +63,7 @@
 
 .epButton--outline:hover:not(.epButton--disabled) {
   background: var(--color-primary-green);
-  color: var(--color-neutral-white);
+  color: rgba(0, 0, 0, 1);
 }
 
 .epButton--ghost {

@@ -2,320 +2,217 @@
 
 **Secure, transparent short-term investment platform** designed to help users grow their wealth with confidence through investment notes.
 
-[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://github.com/colinEarnPrime1987/earnprime-nextjs)
+[![Version](https://img.shields.io/badge/version-0.2.0-green.svg)](https://github.com/colinEarnPrime1987/earnprime-nextjs)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black.svg)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.4-blue.svg)](https://react.dev/)
+[![Fastify](https://img.shields.io/badge/Fastify-5.x-white.svg)](https://fastify.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue.svg)](https://www.typescriptlang.org/)
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install dependencies
+# Frontend (Terminal 1)
 npm install
+npm run dev                  # http://localhost:3000
 
-# Start development server
-npm run dev
+# Backend (Terminal 2)
+cd backend
+npm install
+npm run dev                  # http://localhost:3002
+
+# Database migrations (one-time)
+psql <connection_string> -f backend/src/db/schema.sql
+psql <connection_string> -f backend/src/db/migrate-notes.sql
 ```
 
-Visit [http://localhost:3001](http://localhost:3001) to see the application.
+## Architecture
 
-## 📁 Project Structure
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   Next.js App    │────▶│  Fastify API     │────▶│ Aurora PostgreSQL│
+│   (port 3000)    │     │  (port 3002)     │     │   (AWS RDS)      │
+└─────────────────┘     └────────┬─────────┘     └─────────────────┘
+                                 │
+                         ┌───────▼────────┐
+                         │   Plaid API     │
+                         │   (Sandbox)     │
+                         └────────────────┘
+```
+
+- **Frontend:** Next.js 16 with App Router, CSS Modules, TypeScript
+- **Backend:** Fastify with TypeScript, Zod validation, JWT auth
+- **Database:** Aurora PostgreSQL on AWS RDS
+- **Banking:** Plaid sandbox integration for account linking
+- **Encryption:** AES-256-GCM for sensitive tokens at rest
+
+## Project Structure
 
 ```
 earnprime-nextjs/
-├── app/                          # Next.js App Router
-│   ├── layout.tsx               # Root layout with metadata
-│   ├── page.tsx                 # Landing page
-│   ├── page.module.css          # Landing page styles
-│   ├── globals.css              # Global styles
-│   │
-│   ├── login/                   # Login page
-│   │   ├── page.tsx
-│   │   └── login.module.css
-│   │
-│   ├── register/                # Multi-step registration
-│   │   ├── page.tsx
-│   │   └── register.module.css
-│   │
-│   ├── dashboard/               # User dashboard
-│   │   ├── page.tsx
-│   │   └── dashboard.module.css
-│   │
-│   └── api/                     # API routes
-│       └── auth/
-│           ├── login/route.ts
-│           └── register/route.ts
+├── app/                              # Next.js App Router
+│   ├── layout.tsx                   # Root layout
+│   ├── page.tsx                     # Landing page
+│   ├── login/                       # Login page
+│   ├── register/                    # Multi-step registration
+│   ├── dashboard/                   # User dashboard
+│   │   ├── page.tsx                # Main dashboard (banks, stats, invest)
+│   │   ├── institution/[id]/       # Institution detail + account drill-down
+│   │   └── notes/                  # Notes Marketplace
+│   │       ├── page.tsx            # Browse all notes
+│   │       ├── [id]/page.tsx       # Note detail + purchase form
+│   │       └── purchases/page.tsx  # My Investments portfolio
+│   └── api/plaid/                   # Next.js proxy routes for Plaid
 │
-├── components/
-│   ├── base/                    # Base UI components
-│   │   ├── EPButton.tsx / .module.css
-│   │   ├── EPLogo.tsx / .module.css
-│   │   ├── AnimatedBackground.tsx / .module.css
-│   │   └── AnimatedLogo.tsx / .module.css
-│   │
-│   └── layout/                  # Layout components
-│       └── EPContainer.tsx / .module.css
+├── backend/                          # Fastify API server
+│   └── src/
+│       ├── db/                      # Schema, migrations, connection
+│       ├── middleware/              # JWT auth middleware
+│       ├── repositories/           # Data access layer
+│       ├── routes/                  # API route handlers
+│       ├── services/               # Business logic
+│       ├── types/                   # TypeScript interfaces
+│       └── utils/                   # Encryption utilities
 │
-├── lib/                         # Core utilities
-│   └── session.ts              # Session management
+├── components/                       # Shared React components
+│   ├── base/                        # EPButton, AnimatedBackground, etc.
+│   ├── layout/                      # EPContainer
+│   └── PlaidLink.tsx               # Plaid Link integration
 │
-├── styles/                      # Design system
-│   ├── variables.css           # CSS custom properties
-│   └── base.css                # Global base styles
+├── lib/                              # Frontend utilities
+│   ├── api-client.ts               # HTTP client for all API calls
+│   └── plaid.ts                    # Plaid configuration
 │
-├── public/
-│   ├── assets/                 # Logos and branding
-│   └── icon.svg                # Favicon
-│
-├── docs/                        # Documentation
-│   └── PHASE-1-AUTHENTICATION.md
-│
-├── CHANGELOG.md                 # Version history
-├── tsconfig.json               # TypeScript config
-├── next.config.ts              # Next.js config
-└── package.json                # Dependencies
+└── docs/                             # Documentation
+    ├── user-guide.md               # Step-by-step user walkthrough
+    └── plaid-integration-flow.md   # Plaid technical flow
 ```
 
-## ✨ Features
+## Features
 
-### Phase 1: Authentication & Registration ✅
+### Authentication & Registration
 
-- **Landing Page**
-  - Particle network animated background
-  - Parallax scrolling effects
-  - Features showcase
-  - Responsive navigation bar
-  - Call-to-action sections
+- JWT-based authentication with bcrypt password hashing
+- Multi-step registration wizard with KYC data collection
+- Protected routes with auth middleware
 
-- **User Authentication**
-  - Login page with form validation
-  - Session management with HttpOnly cookies
-  - Protected dashboard routes
+### Plaid Banking Integration
 
-- **User Registration**
-  - Multi-step registration wizard
-  - Personal information collection
-  - Contact details validation
-  - Financial information and KYC
-  - Account creation with security
-  - Accredited investor qualification logic
+- Connect bank accounts via Plaid Link (sandbox)
+- View institutions, accounts, and balances
+- Sync and browse transaction history
+- Refresh live balances from Plaid
+- Disconnect institutions
+- Access tokens encrypted with AES-256-GCM at rest
 
-- **API Routes**
-  - `/api/auth/login` - User authentication
-  - `/api/auth/register` - User registration
-  - In-memory session storage (development)
+### Notes Marketplace
 
-### Coming Soon
+- Browse investment notes with APY rates, terms, and risk ratings
+- Real-time capacity tracking with progress bars
+- Purchase notes using connected bank accounts
+- Validation: minimum investment, capacity limits, account ownership
+- Atomic database transactions for purchase integrity
+- Dedicated "My Investments" portfolio page
 
-- **Phase 2**: Dashboard & Wallet Management
-- **Phase 3**: Investment Notes System
-- **Phase 4**: Transaction History & Reporting
-- **Phase 5**: Settings & Profile Management
-- **Phase 6**: Production Deployment
+### Dashboard
 
-## 🎨 Design System
+- Financial overview with total balance and account counts
+- Institution cards with aggregated balances
+- Cross-bank transaction feed
+- Quick access to Notes Marketplace
+- Drill-down: institution > accounts > transactions
 
-### Components
+## API Endpoints
 
-#### EPButton
-Button component with multiple variants and sizes:
-```tsx
-<EPButton variant="primary" size="lg" onClick={handleClick}>
-  Click Me
-</EPButton>
+### Authentication
+
+| Method | Path                 | Auth | Description        |
+| ------ | -------------------- | ---- | ------------------ |
+| POST   | `/api/auth/register` | No   | Create account     |
+| POST   | `/api/auth/login`    | No   | Login, returns JWT |
+| GET    | `/api/auth/me`       | Yes  | Get current user   |
+
+### Plaid / Banking
+
+| Method | Path                                                    | Auth | Description           |
+| ------ | ------------------------------------------------------- | ---- | --------------------- |
+| POST   | `/api/plaid/create-link-token`                          | Yes  | Get Plaid Link token  |
+| POST   | `/api/plaid/exchange-token`                             | Yes  | Exchange public token |
+| GET    | `/api/plaid/accounts`                                   | Yes  | All user accounts     |
+| GET    | `/api/plaid/balances`                                   | Yes  | Refresh all balances  |
+| GET    | `/api/plaid/institutions`                               | Yes  | List connected banks  |
+| GET    | `/api/plaid/institutions/:id/accounts`                  | Yes  | Accounts for a bank   |
+| GET    | `/api/plaid/institutions/:id/balances`                  | Yes  | Refresh bank balances |
+| GET    | `/api/plaid/institutions/:id/accounts/:id`              | Yes  | Account detail        |
+| GET    | `/api/plaid/institutions/:id/accounts/:id/transactions` | Yes  | Account transactions  |
+| GET    | `/api/plaid/institutions/:id/transactions`              | Yes  | All bank transactions |
+| POST   | `/api/plaid/sync-transactions`                          | Yes  | Sync from Plaid       |
+| GET    | `/api/plaid/transactions`                               | Yes  | All user transactions |
+| DELETE | `/api/plaid/institutions/:id`                           | Yes  | Disconnect bank       |
+
+### Notes Marketplace
+
+| Method | Path                      | Auth | Description      |
+| ------ | ------------------------- | ---- | ---------------- |
+| GET    | `/api/notes`              | No   | List all notes   |
+| GET    | `/api/notes/:id`          | No   | Note detail      |
+| POST   | `/api/notes/:id/purchase` | Yes  | Purchase a note  |
+| GET    | `/api/notes/purchases/me` | Yes  | User's purchases |
+
+## Database Schema
+
+| Table            | Description                                           |
+| ---------------- | ----------------------------------------------------- |
+| `users`          | User accounts with hashed passwords                   |
+| `plaid_items`    | Connected bank institutions (encrypted access tokens) |
+| `bank_accounts`  | Bank account details and balances                     |
+| `transactions`   | Transaction history from Plaid                        |
+| `notes`          | Investment notes with APY, capacity, risk             |
+| `note_purchases` | User purchase records                                 |
+
+## Design System
+
+- **Primary Green:** `#00EA96`
+- **Card Background:** `rgba(26, 26, 26, 0.95)` with `backdrop-filter: blur(20px)`
+- **Card Border:** `rgba(0, 234, 150, 0.1)` with `border-radius: 16px`
+- **Font:** Poppins (400, 500, 600, 700)
+- **Dark theme** throughout with glass-morphism card effects
+
+## Environment Variables
+
+See `backend/.env.example` for the full list. Key variables:
+
+```env
+# Database (Aurora PostgreSQL)
+DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+
+# Auth
+JWT_SECRET
+
+# Plaid (Sandbox)
+PLAID_CLIENT_ID, PLAID_SANDBOX_SECRET, PLAID_ENV=sandbox
+
+# Encryption
+ENCRYPTION_KEY    # 64-char hex key for AES-256-GCM
+
+# URLs
+FRONTEND_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3002
 ```
 
-**Variants**: `primary`, `secondary`, `outline`, `ghost`
-**Sizes**: `sm`, `md`, `lg`
+## Versioning
 
-#### EPLogo
-Logo component with flexible sizing and themes:
-```tsx
-<EPLogo size="md" theme="light" variant="full" />
-```
+This project follows [Semantic Versioning](https://semver.org/). See [CHANGELOG.md](CHANGELOG.md) for version history.
 
-**Sizes**: `sm`, `md`, `lg`, `xl`
-**Themes**: `default`, `dark`, `light`, `monochrome`
-**Variants**: `full`, `symbol`, `text`
+## Documentation
 
-#### EPContainer
-Responsive container with max-width constraints:
-```tsx
-<EPContainer maxWidth="xl">
-  {children}
-</EPContainer>
-```
+- [User Guide](docs/user-guide.md) — Step-by-step: register, login, connect banks, purchase notes
+- [Plaid Integration Flow](docs/plaid-integration-flow.md) — Technical Plaid flow details
+- [Phase 1: Authentication](docs/PHASE-1-AUTHENTICATION.md) — Original auth implementation docs
 
-**Max Widths**: `sm`, `md`, `lg`, `xl`
+## License
 
-#### AnimatedBackground
-Canvas-based particle network animation:
-```tsx
-<AnimatedBackground />
-```
-
-### Color Palette
-
-- **Primary Green**: `#00CE84`, `#00EA96`, `#02BF76`
-- **Dark**: `#1A1A1A`, `#2D2D2D`, `#3A3A3A`
-- **Neutral**: White, grays
-- **Semantic**: Success, error, warning, info
-
-### Typography
-
-- **Font Family**: Poppins (Google Fonts)
-- **Weights**: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
-- **Scale**: 12px - 48px with CSS custom properties
-
-## 🔧 Technology Stack
-
-- **Framework**: Next.js 16.1.6 (App Router)
-- **UI Library**: React 19.2.4
-- **Language**: TypeScript 5.9.3
-- **Styling**: CSS Modules + CSS Custom Properties
-- **Animations**: Canvas API + CSS animations
-- **Session Management**: HttpOnly cookies (in-memory store for development)
-- **Module System**: ES Modules
-
-## 📝 Available Scripts
-
-```bash
-# Development server (port 3001)
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm run start
-
-# Run linter
-npm run lint
-```
-
-## 🔐 Authentication
-
-Current implementation uses mock authentication with in-memory session storage for rapid prototyping.
-
-**Demo User**:
-- Username: `demo`
-- Password: `password123`
-
-**⚠️ Note**: This is for development only. See [docs/PHASE-1-AUTHENTICATION.md](docs/PHASE-1-AUTHENTICATION.md) for production migration guide.
-
-## 📱 Responsive Design
-
-- Mobile-first approach
-- Breakpoints: 768px, 1024px, 1280px
-- Touch-friendly interactions
-- Fluid typography and spacing
-
-## 🎭 Animations & Effects
-
-- Particle network background with canvas rendering
-- Parallax scrolling on landing page
-- Scroll-triggered fade-in animations
-- Smooth page transitions
-- Interactive hover states
-
-## 🧪 Development
-
-### Adding New Pages
-
-Create a new directory in `app/` with a `page.tsx` file:
-
-```tsx
-// app/my-page/page.tsx
-export default function MyPage() {
-  return <div>My Page</div>
-}
-```
-
-Route will be available at `/my-page`.
-
-### Creating Components
-
-Use TypeScript and CSS Modules:
-
-```tsx
-// components/MyComponent.tsx
-import styles from './MyComponent.module.css'
-
-interface MyComponentProps {
-  title: string
-}
-
-export default function MyComponent({ title }: MyComponentProps) {
-  return <div className={styles.container}>{title}</div>
-}
-```
-
-### API Routes
-
-Create route handlers in `app/api/`:
-
-```tsx
-// app/api/my-endpoint/route.ts
-import { NextResponse } from 'next/server'
-
-export async function GET() {
-  return NextResponse.json({ message: 'Hello' })
-}
-```
-
-## 🚢 Versioning
-
-This project follows [Semantic Versioning](https://semver.org/):
-
-- **MAJOR**: Breaking changes
-- **MINOR**: New features (backward compatible)
-- **PATCH**: Bug fixes
-
-See [CHANGELOG.md](CHANGELOG.md) for version history.
-
-## 📚 Documentation
-
-- [Phase 1: Authentication & Registration](docs/PHASE-1-AUTHENTICATION.md) - Complete implementation guide
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features
-- [React Documentation](https://react.dev) - React fundamentals
-- [TypeScript Documentation](https://www.typescriptlang.org/docs) - TypeScript guide
-
-## 🎯 Roadmap
-
-- [x] **Phase 1**: Authentication & Registration (v0.1.0)
-- [ ] **Phase 2**: Dashboard & Wallet Management
-- [ ] **Phase 3**: Investment Notes System
-- [ ] **Phase 4**: Transaction History & Reporting
-- [ ] **Phase 5**: Settings & Profile Management
-- [ ] **Phase 6**: Production Deployment
-
-## 🔒 Security Considerations
-
-**Current (Development)**:
-- In-memory session storage
-- Plain-text passwords (mock only)
-- No database persistence
-
-**Production Requirements**:
-- PostgreSQL/MySQL database
-- bcrypt password hashing
-- JWT or session-based auth with Redis
-- HTTPS/SSL enforcement
-- CSRF protection
-- Rate limiting
-- Input sanitization
-
-See [docs/PHASE-1-AUTHENTICATION.md](docs/PHASE-1-AUTHENTICATION.md) for detailed security migration path.
-
-## 📄 License
-
-Copyright © 2026 EarnPrime. All rights reserved.
-
-## 🤝 Contributing
-
-This is a private project. For questions or issues, contact the development team.
+Copyright 2026 EarnPrime. All rights reserved.
 
 ---
 
-**Current Version**: 0.1.0 - Phase 1 Complete
-**Last Updated**: February 4, 2026
+**Current Version**: 0.2.0
+**Last Updated**: February 7, 2026

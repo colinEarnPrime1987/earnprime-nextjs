@@ -4,7 +4,7 @@
 
 .logoSvg {
   display: block;
-  filter: drop-shadow(0 4px 20px rgba(0, 234, 150, 0.4));
+  /* filter: drop-shadow(0 4px 20px rgba(0, 234, 150, 0.4)); */
   animation: float 6s ease-in-out infinite;
 }
 
@@ -15,7 +15,8 @@
 }
 
 @keyframes symbolPulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -41,7 +42,8 @@
 }
 
 @keyframes partGlow {
-  0%, 100% {
+  0%,
+  100% {
     filter: brightness(1);
     opacity: 1;
   }
@@ -80,7 +82,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -89,9 +92,9 @@
 }
 
 /* Hover effect */
-.animatedLogo:hover .logoSvg {
+/* .animatedLogo:hover .logoSvg {
   filter: drop-shadow(0 8px 30px rgba(0, 234, 150, 0.6));
-}
+} */
 
 .animatedLogo:hover .logoSymbol {
   animation: symbolPulse 1s ease-in-out infinite;
@@ -99,7 +102,7 @@
 
 /* Light theme (for dark backgrounds) */
 .animatedLogo.light .earnText {
-  fill: #FFFFFF;
+  fill: #ffffff;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
 }
 

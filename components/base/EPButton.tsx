@@ -31,12 +31,7 @@ export default function EPButton({
     .join(' ')
 
   return (
-    <button
-      className={buttonClasses}
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
-    >
+    <button className={buttonClasses} type={type} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   )

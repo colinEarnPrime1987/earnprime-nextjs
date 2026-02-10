@@ -48,7 +48,7 @@ export default function AnimatedBackground({ style }: AnimatedBackgroundProps) {
       const particles = particlesRef.current
 
       // Update particle positions
-      particles.forEach((particle) => {
+      particles.forEach(particle => {
         particle.x += particle.vx
         particle.y += particle.vy
 
@@ -73,7 +73,7 @@ export default function AnimatedBackground({ style }: AnimatedBackgroundProps) {
           const distance = Math.sqrt(dx * dx + dy * dy)
 
           if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.15
+            const opacity = (1 - distance / maxDistance) * 0.08
             ctx.strokeStyle = `rgba(0, 234, 150, ${opacity})`
             ctx.lineWidth = 1
             ctx.beginPath()
@@ -85,26 +85,19 @@ export default function AnimatedBackground({ style }: AnimatedBackgroundProps) {
       }
 
       // Draw particles
-      particles.forEach((particle) => {
+      particles.forEach(particle => {
         // Outer glow
-        const gradient = ctx.createRadialGradient(
-          particle.x,
-          particle.y,
-          0,
-          particle.x,
-          particle.y,
-          5
-        )
-        gradient.addColorStop(0, 'rgba(0, 234, 150, 0.6)')
-        gradient.addColorStop(0.5, 'rgba(0, 234, 150, 0.3)')
+        const gradient = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, 5)
+        gradient.addColorStop(0, 'rgba(0, 234, 150, 0.3)')
+        gradient.addColorStop(0.5, 'rgba(0, 234, 150, 0.1)')
         gradient.addColorStop(1, 'rgba(0, 234, 150, 0)')
         ctx.fillStyle = gradient
         ctx.beginPath()
-        ctx.arc(particle.x, particle.y, 5, 0, Math.PI * 2)
+        ctx.arc(particle.x, particle.y, 4, 0, Math.PI * 2)
         ctx.fill()
 
         // Inner particle
-        ctx.fillStyle = 'rgba(0, 234, 150, 0.8)'
+        ctx.fillStyle = 'rgba(0, 234, 150, 0.5)'
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, 1.5, 0, Math.PI * 2)
         ctx.fill()
@@ -124,7 +117,7 @@ export default function AnimatedBackground({ style }: AnimatedBackgroundProps) {
   }, [])
 
   return (
-    <div className={styles.animatedBackground} style={style}>
+    <div className={styles.animatedBackground} style={{ ...style, filter: 'grayscale(100%)' }}>
       {/* Animated gradient layers */}
       <div className={`${styles.gradientLayer} ${styles.gradientLayer1}`}></div>
       <div className={`${styles.gradientLayer} ${styles.gradientLayer2}`}></div>

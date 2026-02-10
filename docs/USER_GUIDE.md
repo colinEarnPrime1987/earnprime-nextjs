@@ -1,5 +1,15 @@
 # EarnPrime User Guide
 
+# AES-256-GCM
+
+- AES-256 — 256-bit key, considered unbreakable by brute force. Used by the US government for
+  classified data.
+- GCM mode — authenticated encryption, meaning it provides both confidentiality (can't read it) and
+  integrity (can't tamper with it without detection). The auth tag at line 23 ensures any tampering is
+  caught on decrypt.
+- Random IV per encryption — each token gets a unique 16-byte initialization vector, so encrypting the
+  same token twice produces different ciphertext.
+
 Step-by-step walkthrough for registration, login, connecting bank accounts via Plaid, and purchasing investment notes.
 
 ---
@@ -17,6 +27,7 @@ Step-by-step walkthrough for registration, login, connecting bank accounts via P
 5. On success, the app stores your authentication token and redirects you to the dashboard
 
 **What happens behind the scenes:**
+
 - `POST /api/auth/register` is called
 - Your password is hashed with bcrypt and stored in the `users` table
 - A JWT token is generated and returned
@@ -32,6 +43,7 @@ Step-by-step walkthrough for registration, login, connecting bank accounts via P
 4. On success, you are redirected to the dashboard at `/dashboard`
 
 **What happens behind the scenes:**
+
 - `POST /api/auth/login` is called
 - Your password is verified against the stored bcrypt hash
 - A JWT token is returned and stored in `localStorage`
@@ -41,6 +53,7 @@ Step-by-step walkthrough for registration, login, connecting bank accounts via P
 ## 3. Connect a Bank Account (Plaid Integration)
 
 ### Prerequisites
+
 - You must be logged in
 - The backend must be running on port 3002 with valid Plaid sandbox credentials in `.env`
 
@@ -58,6 +71,7 @@ Step-by-step walkthrough for registration, login, connecting bank accounts via P
 4. Plaid Link closes and the dashboard refreshes to show your connected institution and accounts
 
 **What happens behind the scenes:**
+
 1. Frontend calls `POST /api/plaid/create-link-token` to get a Plaid Link token
 2. Plaid Link opens in the browser with that token
 3. User authenticates with their bank through the Plaid modal
@@ -91,6 +105,7 @@ Step-by-step walkthrough for registration, login, connecting bank accounts via P
 ## 4. Purchase Investment Notes
 
 ### Prerequisites
+
 - You must be logged in
 - You must have at least one connected bank account (see step 3 above)
 - The notes migration must have been run (`migrate-notes.sql`)
@@ -132,6 +147,7 @@ Step-by-step walkthrough for registration, login, connecting bank accounts via P
    - The purchase form is hidden (you've already invested)
 
 **What happens behind the scenes:**
+
 1. Frontend calls `POST /api/notes/:noteId/purchase` with `bank_account_id` and `amount`
 2. Backend validates:
    - The note exists and has `active` status

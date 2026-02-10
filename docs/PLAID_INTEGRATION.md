@@ -66,6 +66,7 @@ PlaidLink component mounts (components/PlaidLink.tsx)
 ```
 
 **Key files:**
+
 - `components/PlaidLink.tsx` — React component wrapping Plaid Link
 - `lib/api-client.ts` — `apiClient.createLinkToken()` makes the HTTP call
 - `backend/src/routes/plaid.routes.ts` — `/create-link-token` endpoint
@@ -95,6 +96,7 @@ User clicks "Connect Bank Account"
 ```
 
 **What's happening behind the scenes at Plaid:**
+
 - Plaid connects to the bank's API
 - Verifies the user's credentials
 - Creates an "Item" (a connection between user + bank)
@@ -194,6 +196,7 @@ Dashboard mounts (or after connecting a bank)
 ```
 
 **Important distinction:**
+
 - `getAccounts()` reads from **our database** (fast, cached data)
 - `getBalances()` calls **Plaid API → bank** in real-time (slower, live data) and updates our DB
 
@@ -250,49 +253,52 @@ User clicks "Load Transactions" on dashboard
 ## Database Schema
 
 ### `plaid_items` — One row per bank connection
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| user_id | UUID | FK → users table |
-| item_id | VARCHAR | Plaid's unique ID for this connection |
-| access_token | TEXT | **Encrypted** (AES-256-GCM, format: `iv:authTag:ciphertext`) |
-| institution_id | VARCHAR | Plaid institution ID (e.g., "ins_3") |
-| institution_name | VARCHAR | Human-readable name (e.g., "Chase") |
-| status | VARCHAR | 'active', 'error', or 'expired' |
-| error_code | VARCHAR | Set when status = 'error' |
-| created_at | TIMESTAMP | |
-| updated_at | TIMESTAMP | |
+
+| Column           | Type      | Notes                                                        |
+| ---------------- | --------- | ------------------------------------------------------------ |
+| id               | UUID      | Primary key                                                  |
+| user_id          | UUID      | FK → users table                                             |
+| item_id          | VARCHAR   | Plaid's unique ID for this connection                        |
+| access_token     | TEXT      | **Encrypted** (AES-256-GCM, format: `iv:authTag:ciphertext`) |
+| institution_id   | VARCHAR   | Plaid institution ID (e.g., "ins_3")                         |
+| institution_name | VARCHAR   | Human-readable name (e.g., "Chase")                          |
+| status           | VARCHAR   | 'active', 'error', or 'expired'                              |
+| error_code       | VARCHAR   | Set when status = 'error'                                    |
+| created_at       | TIMESTAMP |                                                              |
+| updated_at       | TIMESTAMP |                                                              |
 
 ### `bank_accounts` — One row per bank account
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| plaid_item_id | UUID | FK → plaid_items.id |
-| account_id | VARCHAR | Plaid's unique ID for this account (UNIQUE) |
-| name | VARCHAR | Account name (e.g., "Plaid Checking") |
-| official_name | VARCHAR | Bank's official name |
-| type | VARCHAR | 'depository', 'credit', 'loan', 'investment' |
-| subtype | VARCHAR | 'checking', 'savings', 'credit card', etc. |
-| mask | VARCHAR | Last 4 digits (e.g., "0000") |
-| current_balance | DECIMAL | Latest known balance |
-| available_balance | DECIMAL | Available to spend |
-| currency_code | VARCHAR | 'USD' |
+
+| Column            | Type    | Notes                                        |
+| ----------------- | ------- | -------------------------------------------- |
+| id                | UUID    | Primary key                                  |
+| plaid_item_id     | UUID    | FK → plaid_items.id                          |
+| account_id        | VARCHAR | Plaid's unique ID for this account (UNIQUE)  |
+| name              | VARCHAR | Account name (e.g., "Plaid Checking")        |
+| official_name     | VARCHAR | Bank's official name                         |
+| type              | VARCHAR | 'depository', 'credit', 'loan', 'investment' |
+| subtype           | VARCHAR | 'checking', 'savings', 'credit card', etc.   |
+| mask              | VARCHAR | Last 4 digits (e.g., "0000")                 |
+| current_balance   | DECIMAL | Latest known balance                         |
+| available_balance | DECIMAL | Available to spend                           |
+| currency_code     | VARCHAR | 'USD'                                        |
 
 ### `transactions` — One row per transaction
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| account_id | UUID | FK → bank_accounts.id |
-| transaction_id | VARCHAR | Plaid's unique ID (UNIQUE) |
-| amount | DECIMAL | Positive = debit, negative = credit |
-| iso_currency_code | VARCHAR | 'USD' |
-| date | DATE | Transaction date |
-| authorized_date | DATE | When authorization occurred |
-| name | VARCHAR | Transaction description |
-| merchant_name | VARCHAR | Merchant name if available |
-| category | TEXT[] | Array of categories |
-| pending | BOOLEAN | True if not yet settled |
-| payment_channel | VARCHAR | 'online', 'in store', etc. |
+
+| Column            | Type    | Notes                               |
+| ----------------- | ------- | ----------------------------------- |
+| id                | UUID    | Primary key                         |
+| account_id        | UUID    | FK → bank_accounts.id               |
+| transaction_id    | VARCHAR | Plaid's unique ID (UNIQUE)          |
+| amount            | DECIMAL | Positive = debit, negative = credit |
+| iso_currency_code | VARCHAR | 'USD'                               |
+| date              | DATE    | Transaction date                    |
+| authorized_date   | DATE    | When authorization occurred         |
+| name              | VARCHAR | Transaction description             |
+| merchant_name     | VARCHAR | Merchant name if available          |
+| category          | TEXT[]  | Array of categories                 |
+| pending           | BOOLEAN | True if not yet settled             |
+| payment_channel   | VARCHAR | 'online', 'in store', etc.          |
 
 ---
 
@@ -316,6 +322,7 @@ Access tokens are encrypted at the **repository boundary** so the service layer 
 ```
 
 ### Encryption details
+
 - **Algorithm:** AES-256-GCM (authenticated encryption)
 - **Key:** 32-byte hex string in `ENCRYPTION_KEY` env var
 - **IV:** 16 random bytes per encryption (unique per token)
@@ -324,6 +331,7 @@ Access tokens are encrypted at the **repository boundary** so the service layer 
 - **File:** `backend/src/utils/crypto.ts`
 
 ### Migration
+
 Run `backend/src/db/migrate-encrypt-tokens.ts` to encrypt existing plaintext tokens. It detects already-encrypted tokens by checking for the `iv:authTag:ciphertext` format and skips them.
 
 ---
@@ -332,14 +340,14 @@ Run `backend/src/db/migrate-encrypt-tokens.ts` to encrypt existing plaintext tok
 
 All endpoints are under `/api/plaid/` and require JWT auth via `Authorization: Bearer <token>` header.
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| POST | `/create-link-token` | Get a link_token to initialize Plaid Link |
-| POST | `/exchange-token` | Exchange public_token → access_token, store in DB |
-| GET | `/accounts` | Get user's accounts from DB |
-| GET | `/balances` | Get real-time balances from Plaid API |
-| POST | `/sync-transactions` | Pull transactions from Plaid, store in DB |
-| GET | `/transactions?limit=N` | Get transactions from DB |
+| Method | Endpoint                | Purpose                                           |
+| ------ | ----------------------- | ------------------------------------------------- |
+| POST   | `/create-link-token`    | Get a link_token to initialize Plaid Link         |
+| POST   | `/exchange-token`       | Exchange public_token → access_token, store in DB |
+| GET    | `/accounts`             | Get user's accounts from DB                       |
+| GET    | `/balances`             | Get real-time balances from Plaid API             |
+| POST   | `/sync-transactions`    | Pull transactions from Plaid, store in DB         |
+| GET    | `/transactions?limit=N` | Get transactions from DB                          |
 
 ---
 
@@ -368,11 +376,11 @@ Dashboard mounts
 
 ## Sandbox Testing
 
-| Field | Value |
-|-------|-------|
-| Username | `user_good` |
-| Password | `pass_good` |
-| Environment | `sandbox` |
+| Field               | Value                                     |
+| ------------------- | ----------------------------------------- |
+| Username            | `user_good`                               |
+| Password            | `pass_good`                               |
+| Environment         | `sandbox`                                 |
 | Any test bank works | Chase, Wells Fargo, Bank of America, etc. |
 
 Sandbox returns fake but realistic data: ~20 transactions over the past 90 days, multiple accounts (checking + savings), realistic balances.
