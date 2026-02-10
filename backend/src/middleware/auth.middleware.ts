@@ -1,9 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { JWTPayload } from '@/types'
 
-declare module 'fastify' {
-  interface FastifyRequest {
-    user?: JWTPayload
+declare module '@fastify/jwt' {
+  interface FastifyJWT {
+    payload: JWTPayload
+    user: JWTPayload
   }
 }
 

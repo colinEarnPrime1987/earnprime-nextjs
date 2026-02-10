@@ -52,7 +52,7 @@ fastify.register(plaidRoutes, { prefix: '/api/plaid' })
 fastify.register(notesRoutes, { prefix: '/api/notes' })
 
 // Error handler
-fastify.setErrorHandler((error, request, reply) => {
+fastify.setErrorHandler((error: Error & { statusCode?: number }, request, reply) => {
   fastify.log.error(error)
 
   const statusCode = error.statusCode || 500

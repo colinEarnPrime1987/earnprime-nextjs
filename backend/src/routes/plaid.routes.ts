@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { PlaidService } from '@/services/plaid.service'
 import { optionalAuth } from '@/middleware/auth.middleware'
+import { JWTPayload } from '@/types'
 
 const exchangeTokenSchema = z.object({
   public_token: z.string(),
@@ -21,7 +22,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
 
         const linkToken = await plaidService.createLinkToken(userId)
 
@@ -45,7 +46,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const body = exchangeTokenSchema.parse(request.body)
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
 
         const result = await plaidService.exchangePublicToken(
           userId,
@@ -72,7 +73,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
 
         const accounts = await plaidService.getAccounts(userId)
 
@@ -95,7 +96,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
 
         const balances = await plaidService.getBalances(userId)
 
@@ -118,7 +119,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const body = syncTransactionsSchema.parse(request.body || {})
 
         const startDate = body.start_date ? new Date(body.start_date) : undefined
@@ -153,7 +154,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { limit } = request.query as { limit?: string }
 
         const transactions = await plaidService.getTransactions(
@@ -183,7 +184,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const items = await plaidService.getItems(userId)
         // Strip access_token before returning
         const institutions = items.map(({ access_token, ...rest }) => rest)
@@ -206,7 +207,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { itemId } = request.params as { itemId: string }
         const accounts = await plaidService.getAccountsByItem(userId, itemId)
         reply.send({
@@ -229,7 +230,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { itemId } = request.params as { itemId: string }
         const balances = await plaidService.getBalancesByItem(userId, itemId)
         reply.send({
@@ -252,7 +253,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { itemId, accountId } = request.params as { itemId: string; accountId: string }
         const account = await plaidService.getAccountDetail(userId, itemId, accountId)
         reply.send({
@@ -275,7 +276,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { itemId, accountId } = request.params as { itemId: string; accountId: string }
         const { limit } = request.query as { limit?: string }
         const transactions = await plaidService.getTransactionsByAccount(
@@ -307,7 +308,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { itemId } = request.params as { itemId: string }
         await plaidService.disconnectItem(userId, itemId)
         reply.send({
@@ -330,7 +331,7 @@ export async function plaidRoutes(fastify: FastifyInstance) {
     { preHandler: [optionalAuth] },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId
+        const userId = (request.user as JWTPayload).userId
         const { itemId } = request.params as { itemId: string }
         const { limit } = request.query as { limit?: string }
         const transactions = await plaidService.getTransactionsByItem(
