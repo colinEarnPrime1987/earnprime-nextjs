@@ -16,8 +16,9 @@ const fastify = Fastify({
 })
 
 // Register CORS
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000'
 fastify.register(cors, {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+  origin: [frontendUrl, frontendUrl.replace('://', '://www.')],
   credentials: true,
 })
 
