@@ -4,6 +4,7 @@ import AnimatedBackground from '@/components/base/AnimatedBackground'
 import AnimatedLogo from '@/components/base/AnimatedLogo'
 import EPButton from '@/components/base/EPButton'
 import EPContainer from '@/components/layout/EPContainer'
+import NavHeader from '@/components/layout/NavHeader'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -13,54 +14,7 @@ export default function LandingPage() {
   const router = useRouter()
   const heroSectionRef = useRef<HTMLElement>(null)
   const featuresSectionRef = useRef<HTMLElement>(null)
-  const ctaSectionRef = useRef<HTMLElement>(null)
-
   const [scrollY, setScrollY] = useState(0)
-  const [featuresVisible, setFeaturesVisible] = useState(false)
-  const [ctaVisible, setCtaVisible] = useState(false)
-
-  // Features data
-  const features = [
-    {
-      title: 'Competitive Rates',
-      description: 'Earn up to 6.70% APY on short-term notes — rates that rival high yield and jumbo CDs.',
-      icon: `<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill="#00EA96" opacity="0.1"/>
-        <path d="M24 12L28 20H20L24 12Z" fill="#00EA96"/>
-        <rect x="16" y="28" width="16" height="4" fill="#00EA96"/>
-      </svg>`,
-    },
-    {
-      title: 'Short-Term Flexibility',
-      description:
-        '270-day maturity with options for auto-renewal or monthly interest payments — without the lock-in of traditional CDs.',
-      icon: `<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill="#00EA96" opacity="0.1"/>
-        <circle cx="24" cy="24" r="8" stroke="#00EA96" stroke-width="2" fill="none"/>
-        <path d="M24 16V24L28 28" stroke="#00EA96" stroke-width="2" stroke-linecap="round"/>
-      </svg>`,
-    },
-    {
-      title: 'Bank-Level Security',
-      description: 'Your investments are protected with enterprise-grade encryption and secure banking integration.',
-      icon: `<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill="#00EA96" opacity="0.1"/>
-        <rect x="16" y="16" width="16" height="16" rx="2" stroke="#00EA96" stroke-width="2" fill="none"/>
-        <path d="M20 24L23 27L28 21" stroke="#00EA96" stroke-width="2" stroke-linecap="round"/>
-      </svg>`,
-    },
-    {
-      title: 'Easy Access',
-      description: 'Manage your investments anywhere with our mobile-ready platform and intuitive dashboard.',
-      icon: `<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill="#00EA96" opacity="0.1"/>
-        <rect x="18" y="14" width="12" height="20" rx="2" stroke="#00EA96" stroke-width="2" fill="none"/>
-        <line x1="21" y1="18" x2="27" y2="18" stroke="#00EA96" stroke-width="2"/>
-        <line x1="21" y1="22" x2="27" y2="22" stroke="#00EA96" stroke-width="2"/>
-      </svg>`,
-    },
-  ]
-
   // Computed properties for parallax effects
   const parallaxOffset = useMemo(() => Math.min(scrollY, 800), [scrollY])
 
@@ -82,21 +36,6 @@ export default function LandingPage() {
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
-
-      // Check if sections are in viewport
-      if (featuresSectionRef.current) {
-        const rect = featuresSectionRef.current.getBoundingClientRect()
-        if (rect.top < window.innerHeight * 0.75) {
-          setFeaturesVisible(true)
-        }
-      }
-
-      if (ctaSectionRef.current) {
-        const rect = ctaSectionRef.current.getBoundingClientRect()
-        if (rect.top < window.innerHeight * 0.75) {
-          setCtaVisible(true)
-        }
-      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -107,19 +46,14 @@ export default function LandingPage() {
     }
   }, [])
 
-  // Smooth scroll to section
-  const scrollToSection = (sectionRef: React.RefObject<HTMLElement | null>) => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   const handleGetStarted = () => {
     router.push('/register')
   }
 
-  const handleLogin = () => {
-    router.push('/login')
+  const scrollToSection = (sectionRef: React.RefObject<HTMLElement | null>) => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const handleLearnMore = () => {
@@ -128,40 +62,9 @@ export default function LandingPage() {
 
   return (
     <div className={styles.landingPage}>
-      {/* Navigation Bar */}
-      <nav className={styles.nav}>
-        <EPContainer maxWidth="xl">
-          <div className={styles.navContent}>
-            <div
-              className={styles.navLogo}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              style={{ cursor: 'pointer' }}
-            >
-              <img
-                src="/assets/Logo files/PNGs - SVGs/SVG/Asset 3.svg"
-                alt="EarnPrime Logo"
-                className={styles.navLogoImage}
-              />
-            </div>
-            <div className={styles.navLinks}>
-              <Link href="/how-it-works">How It Works</Link>
-              <Link href="/about">About Us</Link>
-              <Link href="/blog">Blog</Link>
-              <Link href="/learn">Resources</Link>
-            </div>
-            <div className={styles.navActions}>
-              <EPButton size="sm" variant="outline" onClick={handleLogin}>
-                Login
-              </EPButton>
-              <EPButton size="sm" onClick={handleGetStarted}>
-                Sign Up
-              </EPButton>
-            </div>
-          </div>
-        </EPContainer>
-      </nav>
+      <NavHeader />
 
-      {/* Hero Section with Animated Background */}
+      {/* Hero Section */}
       <section ref={heroSectionRef} className={styles.hero}>
         {/* Animated Background */}
         <AnimatedBackground style={{ transform: `translateY(${parallaxOffset * 0.5}px)` }} />
@@ -176,20 +79,61 @@ export default function LandingPage() {
             }}
           >
             {/* Animated SVG Logo */}
-            <AnimatedLogo width={700} height={285} className={`${styles.heroAnimatedLogo} light`} />
+            <AnimatedLogo width={700} height={145} className={`${styles.heroAnimatedLogo} light`} />
 
             <h1 className={styles.heroTitle}>
-              Invest in Your <span className={styles.textPrimaryGlow}>Prime</span>
+              Trade in your Bank CDs for <span className={styles.textPrimaryGlow}>EarnPrime Short Term Notes</span>
             </h1>
-            <p className={styles.heroSubtitle}>
-              Short-term investment notes with rates that compete with high yield CDs — designed to help you grow your
-              wealth with confidence.
-            </p>
+            {/* <p className={styles.heroSubtitle}>
+              Start earning 6.75% APY today. Most banks let you borrow at the prime rate, we let you earn interest at
+              the prime rate.
+            </p> */}
+
+            {/* Comparison Banner */}
+            <div className={styles.heroBannerComparison}>
+              <div className={styles.comparisonTable}>
+                <div className={styles.comparisonRow}>
+                  <div className={styles.comparisonCell}></div>
+                  <div className={styles.comparisonCell}>Money Market</div>
+                  <div className={styles.comparisonCell}>Bank CDs</div>
+                  <div className={styles.comparisonCell}>Annuity</div>
+                  <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>Short Term Notes</div>
+                </div>
+                <div className={styles.comparisonRow}>
+                  <div className={styles.comparisonCell}>
+                    <strong>Yield</strong>
+                  </div>
+                  <div className={styles.comparisonCell}>3.50%</div>
+                  <div className={styles.comparisonCell}>4.00%</div>
+                  <div className={styles.comparisonCell}>6.50%</div>
+                  <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>6.75%</div>
+                </div>
+                <div className={styles.comparisonRow}>
+                  <div className={styles.comparisonCell}>
+                    <strong>Term</strong>
+                  </div>
+                  <div className={styles.comparisonCell}>Daily</div>
+                  <div className={styles.comparisonCell}>12 mo</div>
+                  <div className={styles.comparisonCell}>5+ yrs</div>
+                  <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>9 mo</div>
+                </div>
+                <div className={styles.comparisonRow}>
+                  <div className={styles.comparisonCell}>
+                    <strong>Rate</strong>
+                  </div>
+                  <div className={styles.comparisonCell}>Variable</div>
+                  <div className={styles.comparisonCell}>Fixed</div>
+                  <div className={styles.comparisonCell}>Fixed</div>
+                  <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>Fixed</div>
+                </div>
+              </div>
+            </div>
+
             <div className={styles.heroActions}>
-              <EPButton size="lg" onClick={handleGetStarted}>
+              <EPButton size="md" onClick={handleGetStarted}>
                 Get Started
               </EPButton>
-              <EPButton size="lg" variant="outline" onClick={handleLearnMore}>
+              <EPButton variant="outline" size="md" onClick={handleLearnMore}>
                 Learn More
               </EPButton>
             </div>
@@ -203,37 +147,282 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section ref={featuresSectionRef} className={styles.features}>
+      {/* Featured In Section */}
+      <section ref={featuresSectionRef} className={styles.featuredIn}>
         <EPContainer maxWidth="xl">
-          <h2 className={`${styles.featuresTitle} ${featuresVisible ? styles.fadeInUp : ''}`}>Why Choose EarnPrime?</h2>
-          <div className={styles.featuresGrid}>
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className={`${styles.featureCard} ${featuresVisible ? styles.fadeInUp : ''}`}
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className={styles.featureCardIcon} dangerouslySetInnerHTML={{ __html: feature.icon }}></div>
-                <h3 className={styles.featureCardTitle}>{feature.title}</h3>
-                <p className={styles.featureCardDescription}>{feature.description}</p>
-              </div>
-            ))}
+          <h2 className={styles.featuredInTitle}>Featured In</h2>
+          <div className={styles.logosCarousel}>
+            <div className={styles.logoItem}>Wall Street Journal</div>
+            <div className={styles.logoItem}>NYTimes</div>
+            <div className={styles.logoItem}>Forbes</div>
+            <div className={styles.logoItem}>Financial Times</div>
+            <div className={styles.logoItem}>Bloomberg</div>
+            <div className={styles.logoItem}>Barron's</div>
+            <div className={styles.logoItem}>Fortune</div>
+            <div className={styles.logoItem}>Morningstar</div>
+            <div className={styles.logoItem}>CNBC</div>
+            <div className={styles.logoItem}>Inc</div>
+            <div className={styles.logoItem}>Wired</div>
+            <div className={styles.logoItem}>MarketWatch</div>
+            <div className={styles.logoItem}>The Economist</div>
+            <div className={styles.logoItem}>Money.com</div>
           </div>
         </EPContainer>
       </section>
 
-      {/* CTA Section */}
-      <section ref={ctaSectionRef} className={`${styles.cta} ${ctaVisible ? styles.fadeIn : ''}`}>
+      {/* Product Details Section */}
+      <section className={styles.productDetails}>
         <EPContainer maxWidth="lg">
-          <div className={styles.ctaContent}>
-            <h2 className={styles.ctaTitle}>Ready to Start Earning?</h2>
-            <p className={styles.ctaSubtitle}>
-              A smarter alternative to high yield CDs. Take control of your financial future.
-            </p>
-            <EPButton size="lg" variant="secondary" onClick={handleGetStarted}>
-              Create Your Account
+          <h2 className={styles.productTitle}>Product: EarnPrime Short Term Notes</h2>
+          <div className={styles.productHighlight}>
+            <div className={styles.productHighlightItem}>
+              <span className={styles.productHighlightValue}>270-day term</span>
+              <span className={styles.productHighlightLabel}>~9 months</span>
+            </div>
+            <div className={styles.productHighlightItem}>
+              <span className={styles.productHighlightValue}>6.75% APY</span>
+              <span className={styles.productHighlightLabel}>Fixed rate</span>
+            </div>
+          </div>
+
+          <div className={styles.productFeatures}>
+            <div className={styles.productFeature}>
+              <strong>Fixed rate for the term of the note</strong>, just like a bank CD.
+            </div>
+            <div className={styles.productFeature}>
+              <strong>Compound Interest:</strong> interest will accrue and compound daily, then be paid out at maturity.
+              This allows customers to earn +0.2% more per year, compared to paying interest monthly.
+            </div>
+            <div className={styles.productFeature}>
+              <strong>$25,000 minimum denomination</strong>, intended for accredited investors.
+            </div>
+            <div className={styles.productFeature}>
+              <strong>Available:</strong> $25,000 | $50,000 | $75,000 | $100,000 (any amount & combination)
+            </div>
+            <div className={styles.productFeature}>
+              <strong>Automatic renewal</strong>, so you keep earning interest. At maturity, notes will auto-renew at
+              the Prime Rate (Federal Funds rate +3.0%) to allow for further compounding of returns.
+            </div>
+            <div className={styles.productFeature}>
+              <strong>Withdrawal at maturity</strong> is available with 30 days notice. No penalty.
+            </div>
+            <div className={styles.productFeature}>
+              <strong>Early withdrawal</strong> is available with 30 days notice, but will forfeit the last 90 days
+              worth of interest earned.
+            </div>
+            <div className={styles.productFeature}>
+              <strong>Tax-friendly:</strong> 1099 tax forms
+            </div>
+            <div className={styles.productFeature}>
+              <strong>No fees, ever.</strong> Keep 100% of the interest earned.
+            </div>
+          </div>
+
+          <div className={styles.productCta}>
+            <EPButton size="lg" onClick={handleGetStarted}>
+              Buy Short Term Notes
             </EPButton>
+          </div>
+        </EPContainer>
+      </section>
+
+      {/* Third-Party Reviews Section */}
+      <section className={styles.reviews}>
+        <EPContainer maxWidth="xl">
+          <h2 className={styles.reviewsTitle}>Third-party Reviews and Ratings</h2>
+          <div className={styles.reviewsGrid}>
+            <div className={styles.reviewItem}>Google Reviews</div>
+            <div className={styles.reviewItem}>Trust Pilot</div>
+            <div className={styles.reviewItem}>Better Business Bureau</div>
+          </div>
+        </EPContainer>
+      </section>
+
+      {/* Comparison Table Section */}
+      {/* <section className={styles.comparison}>
+        <EPContainer maxWidth="xl">
+          <h2 className={styles.comparisonTitle}>Compare</h2>
+          <div className={styles.comparisonTable}>
+            <div className={styles.comparisonRow}>
+              <div className={styles.comparisonCell}></div>
+              <div className={styles.comparisonCell}>Money Market & High-yield Savings</div>
+              <div className={styles.comparisonCell}>Bank CDs</div>
+              <div className={styles.comparisonCell}>Annuity (Fixed-rate)</div>
+              <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>Short Term Notes</div>
+            </div>
+            <div className={styles.comparisonRow}>
+              <div className={styles.comparisonCell}><strong>Yield</strong></div>
+              <div className={styles.comparisonCell}>3.50%</div>
+              <div className={styles.comparisonCell}>4.00%</div>
+              <div className={styles.comparisonCell}>6.50%</div>
+              <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>6.75%</div>
+            </div>
+            <div className={styles.comparisonRow}>
+              <div className={styles.comparisonCell}><strong>Term/Lock-up</strong></div>
+              <div className={styles.comparisonCell}>Daily</div>
+              <div className={styles.comparisonCell}>12 months</div>
+              <div className={styles.comparisonCell}>5+ years</div>
+              <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>9 months</div>
+            </div>
+            <div className={styles.comparisonRow}>
+              <div className={styles.comparisonCell}><strong>Rate</strong></div>
+              <div className={styles.comparisonCell}>Variable</div>
+              <div className={styles.comparisonCell}>Fixed</div>
+              <div className={styles.comparisonCell}>Fixed</div>
+              <div className={styles.comparisonCell + ' ' + styles.comparisonCellHighlight}>Fixed</div>
+            </div>
+          </div>
+        </EPContainer>
+      </section> */}
+
+      {/* Featured By Section */}
+      <section className={styles.featuredBy}>
+        <EPContainer maxWidth="xl">
+          <h2 className={styles.featuredByTitle}>Featured by</h2>
+          <div className={styles.logosCarousel}>
+            <div className={styles.logoItem}>NerdWallet</div>
+            <div className={styles.logoItem}>Seeking Alpha</div>
+            <div className={styles.logoItem}>Investopedia</div>
+            <div className={styles.logoItem}>Kiplinger</div>
+            <div className={styles.logoItem}>Bankrate</div>
+            <div className={styles.logoItem}>CNN Money</div>
+            <div className={styles.logoItem}>Wallet Hub</div>
+            <div className={styles.logoItem}>MoneyRates.com</div>
+            <div className={styles.logoItem}>The Points Guy</div>
+            <div className={styles.logoItem}>Penny Hoarder</div>
+            <div className={styles.logoItem}>Monarch Money</div>
+            <div className={styles.logoItem}>Funding Hero</div>
+          </div>
+        </EPContainer>
+      </section>
+
+      {/* How It Works Section */}
+      <section className={styles.howItWorks}>
+        <EPContainer maxWidth="lg">
+          <h2 className={styles.howItWorksTitle}>How It Works</h2>
+          <p className={styles.howItWorksIntro}>
+            Behind the scenes at EarnPrime, the process works similarly to how your money works at a bank or a credit
+            union:
+          </p>
+
+          <div className={styles.howItWorksList}>
+            <div className={styles.howItWorksItem}>
+              Incoming cash is pooled together and then lent out to creditworthy borrowers who pay a competitive
+              interest rate to us in exchange for borrowing the money.
+            </div>
+            <div className={styles.howItWorksItem}>
+              Most of the borrowers pay on time and in full, but some pay late or default on their loan. This leads to
+              small losses.
+            </div>
+            <div className={styles.howItWorksItem}>
+              We pay our customers the sum of the interest paid, less realized losses from defaults, less expenses
+              incurred to run the firm.
+            </div>
+          </div>
+
+          <h3 className={styles.howItWorksSubtitle}>
+            But, although it's similar to a bank, we take a different approach:
+          </h3>
+
+          <p className={styles.howItWorksText}>
+            A bank may originate their own loans or use the customer deposits to buy securitized blocks of loans in the
+            public market (including: consumer mortgages, corporate loans, CLOs, ABS, MBS, etc).
+          </p>
+
+          <p className={styles.howItWorksText}>
+            We pool our money and buy SEC-regulated mutual funds of diversified corporate loans made to privately-held
+            US companies, originated by trusted partners with long track records of strong underwriting and low losses.
+            The largest fund has investment-grade credit ratings ("A" and "AA" as of Q4-2025).
+          </p>
+
+          <h3 className={styles.howItWorksSubtitle}>
+            This offers several key benefits over the traditional bank approach:
+          </h3>
+
+          <div className={styles.benefitsList}>
+            <div className={styles.benefitItem}>
+              <strong>Higher interest rates:</strong> we see base yields of +1.5% higher vs banks
+            </div>
+            <div className={styles.benefitItem}>
+              <strong>Lower default rates, lower loss rates:</strong> this adds +0.5% to net yield vs banks
+            </div>
+            <div className={styles.benefitItem}>
+              <strong>Lower internal expenses:</strong> this adds another +0.75% to net yield vs banks
+            </div>
+          </div>
+
+          <p className={styles.howItWorksConclusion}>
+            The result: we can offer guaranteed yields of +2.75% higher than the average 1-year bank CD rate (around
+            4.0% today).
+          </p>
+
+          <div className={styles.howItWorksCta}>
+            <EPButton variant="outline" onClick={() => router.push('/how-it-works')}>
+              Learn more
+            </EPButton>
+          </div>
+        </EPContainer>
+      </section>
+
+      {/* Customer Testimonials Section */}
+      <section className={styles.testimonials}>
+        <EPContainer maxWidth="xl">
+          <h2 className={styles.testimonialsTitle}>Customer Testimonials</h2>
+          <p className={styles.testimonialsPlaceholder}>Coming soon...</p>
+        </EPContainer>
+      </section>
+
+      {/* About Us Section */}
+      <section className={styles.aboutUs}>
+        <EPContainer maxWidth="lg">
+          <h2 className={styles.aboutUsTitle}>About Us</h2>
+          <p className={styles.aboutUsText}>
+            EarnPrime is a not-for-profit, mission-driven company trying to educate and change the way people think
+            about low-risk, short-term investments, such as bank CDs.
+          </p>
+          <p className={styles.aboutUsText}>
+            The banking industry has changed over the last 30 years, yet most people are unaware of the new
+            opportunities that exist today.
+          </p>
+          <div className={styles.aboutUsCta}>
+            <EPButton variant="outline" onClick={() => router.push('/about')}>
+              Learn more
+            </EPButton>
+          </div>
+        </EPContainer>
+      </section>
+
+      {/* Referral Program Section */}
+      <section className={styles.referral}>
+        <EPContainer maxWidth="lg">
+          <h2 className={styles.referralTitle}>Refer your friends & family</h2>
+          <p className={styles.referralSubtitle}>Earn up to a $500 bonus with each referral, with no maximum.</p>
+
+          <div className={styles.referralDetails}>
+            <p>
+              Each referral must sign up, transfer cash into their EarnPrime wallet, and purchase an EarnPrime Note of
+              any amount.
+            </p>
+
+            <div className={styles.referralBonuses}>
+              <div className={styles.referralBonus}>
+                $25,000 Note → <strong>$200 bonus</strong>
+              </div>
+              <div className={styles.referralBonus}>
+                $50,000 Note → <strong>$300 bonus</strong>
+              </div>
+              <div className={styles.referralBonus}>
+                $75,000 Note → <strong>$400 bonus</strong>
+              </div>
+              <div className={styles.referralBonus}>
+                $100,000 Note → <strong>$500 bonus</strong>
+              </div>
+            </div>
+
+            <p className={styles.referralDisclaimer}>
+              Bonus cash is added to your EarnPrime wallet, but may not be withdrawn until the completion of the
+              referral's initial 9-month Note term.
+            </p>
           </div>
         </EPContainer>
       </section>
@@ -294,6 +483,18 @@ export default function LandingPage() {
                   </li>
                   <li>
                     <Link href="/faq">FAQ</Link>
+                  </li>
+                  <li>
+                    <Link href="/help">Help Center</Link>
+                  </li>
+                  <li>
+                    <Link href="/calculator">Investment Calculator</Link>
+                  </li>
+                  <li>
+                    <Link href="/calculator/mortgage">Mortgage Calculator</Link>
+                  </li>
+                  <li>
+                    <Link href="/calculator/loan">Loan Calculator</Link>
                   </li>
                 </ul>
               </div>

@@ -1,0 +1,352 @@
+/* =========================================
+   EarnPrime Products — Shared Styles
+   ========================================= */
+
+/* --- Page Layout --- */
+.page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #fff;
+  font-family: var(--font-family-primary);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  padding: 0.875rem 0;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLogo {
+  height: 30px;
+  cursor: pointer;
+}
+
+/* --- Hero / Title --- */
+.hero {
+  padding: 6rem 0 0rem;
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 0.875rem;
+  line-height: 1.2;
+}
+
+.heroTitleAccent {
+  color: var(--color-primary-green);
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-lg);
+  color: #a0a0a0;
+  max-width: 620px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.65;
+}
+
+/* --- Product Type Nav --- */
+.productTypeNav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.productTypeLink {
+  padding: 0.45rem 1.1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #a0a0a0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.productTypeLink:hover {
+  border-color: rgba(0, 234, 150, 0.4);
+  color: #fff;
+}
+
+.productTypeLinkActive {
+  background: rgba(0, 234, 150, 0.12);
+  border-color: rgba(0, 234, 150, 0.4);
+  color: var(--color-primary-green);
+}
+
+/* --- Product Card --- */
+.productCard {
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid rgba(0, 234, 150, 0.1);
+  border-radius: 16px;
+  padding: 2.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  margin-bottom: 3rem;
+}
+
+/* --- Highlight Stats Row --- */
+.highlightRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.highlightItem {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.highlightItemAccent {
+  background: rgba(0, 234, 150, 0.08);
+  border-color: rgba(0, 234, 150, 0.25);
+}
+
+.highlightLabel {
+  font-size: var(--font-size-xs);
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 0.5rem;
+}
+
+.highlightValue {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+}
+
+.highlightValueAccent {
+  color: var(--color-primary-green);
+}
+
+.highlightSub {
+  font-size: var(--font-size-xs);
+  color: #525252;
+  margin-top: 0.25rem;
+}
+
+/* --- Feature List --- */
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  font-size: var(--font-size-sm);
+  color: #d4d4d4;
+  line-height: 1.65;
+}
+
+.featureIcon {
+  color: var(--color-primary-green);
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+/* --- CTA Section --- */
+.ctaSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ctaText {
+  font-size: var(--font-size-base);
+  color: #d4d4d4;
+}
+
+.ctaDisclaimer {
+  font-size: var(--font-size-xs);
+  color: #525252;
+}
+
+/* --- Denominations Grid --- */
+.denominations {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.denomination {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: #d4d4d4;
+}
+
+/* --- Info Section --- */
+.infoSection {
+  padding: 1rem 0 3rem;
+}
+
+.infoSectionTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.infoSectionText {
+  font-size: var(--font-size-base);
+  color: #a0a0a0;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+
+.infoCard {
+  background: rgba(26, 26, 26, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.infoCardTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: #fff;
+  margin-bottom: 0.625rem;
+}
+
+.infoCardText {
+  font-size: var(--font-size-sm);
+  color: #a0a0a0;
+  line-height: 1.7;
+}
+
+/* --- FAQ --- */
+.faqSection {
+  padding: 2rem 0 4rem;
+}
+
+.faqTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.faqItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.25rem 0;
+}
+
+.faqQuestion {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.faqAnswer {
+  font-size: var(--font-size-sm);
+  color: #a0a0a0;
+  line-height: 1.75;
+}
+
+.faqAnswer a {
+  color: var(--color-primary-green);
+  text-decoration: none;
+}
+
+.faqAnswer a:hover {
+  text-decoration: underline;
+}
+
+/* --- Page Footer --- */
+.footer {
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.footerLinks a {
+  font-size: var(--font-size-xs);
+  color: #a0a0a0;
+  text-decoration: none;
+}
+
+.footerLinks a:hover {
+  color: #fff;
+}
+
+.footerText {
+  font-size: var(--font-size-xs);
+  color: #525252;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: var(--font-size-3xl);
+  }
+
+  .productCard {
+    padding: 1.5rem;
+  }
+
+  .highlightRow {
+    grid-template-columns: 1fr;
+  }
+
+  .denominations {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
